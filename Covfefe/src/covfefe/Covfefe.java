@@ -34,10 +34,19 @@ import java.io.*;
 import javax.imageio.*;
 import javax.swing.*;
 
+/**
+ * Hauptklasse, die beim Programmstart aufgerufen wird und die grafische Benutzeroberfläche
+ * Sie enthält Methoden zur Auswertung der Benutzersteuerelemente und dient primär dem Ausführen der Berechnungen
+ * @author Sebastian Lang
+ * @version 08.06.2018
+ */
 public class Covfefe extends JFrame {
 	private static final long serialVersionUID = 5968568959703649378L; //Serialisierbare Versionsnummer
 	private static final int delay = 3000; //Wartezeit in ms während des Startbildschirms
 	
+	/**
+	 * Standardkonstruktor zum Erzeugen von Objekten der Klasse Covfefe
+	 */
 	public Covfefe() {
 		//Framedesign festlegen
 		super("Covfefe"); //Fenstertitel festlegen
@@ -71,6 +80,10 @@ public class Covfefe extends JFrame {
 		t.start(); //Thread starten
 	}
 
+	/**
+	 * Methode, die beim Programmstart ausgeführt wird und ein neues Objekt der Klasse Covfefe erstellt
+	 * @param args Programmparameter
+	 */
 	public static void main(String[] args) {
 		new Covfefe(); //Hauptfenster initialisieren
 	}
