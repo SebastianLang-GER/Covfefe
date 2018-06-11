@@ -49,15 +49,16 @@ public class Covfefe extends JFrame {
 	public Covfefe() {
 		//Framedesign festlegen
 		super("Covfefe"); //Fenstertitel festlegen
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Anwendung nach Klicken auf den Schließen-Button beenden
-		this.setSize(800, 600); //Fenstergröße festlegen
-		this.setLocationRelativeTo(null); //Fenster auf Bildschirm zentrieren
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Anwendung nach Klicken auf den Schließen-Button beenden
+		setSize(800, 600); //Fenstergröße festlegen
+		setLocationRelativeTo(null); //Fenster auf Bildschirm zentrieren
 		try {
 			Image icon = ImageIO.read(ClassLoader.getSystemResourceAsStream("Covfefe.png")); //Icon laden
 			this.setIconImage(icon); //Fenstericon festlegen
 		} catch (IOException e) {
 			e.printStackTrace(); //Fehlerausgabe
 		}
+		
 		
 		//Startbildschirm anzeigen
 		Thread t = new Thread() {
