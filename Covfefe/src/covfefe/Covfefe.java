@@ -45,6 +45,8 @@ public class Covfefe extends JFrame {
 	
 	/**
 	 * Standardkonstruktor zum Erzeugen von Objekten der Klasse Covfefe
+	 * @throws IOException Fehler beim Laden des Icons
+	 * @throws InterruptedException Unterbrechung des Verzögerungsthreads
 	 */
 	public Covfefe() {
 		//Framedesign festlegen
