@@ -30,6 +30,15 @@ public class UnitPrefix {
 	 * @param value Zehnerpotenz
 	 */
 	public void setPower(int value) {
+		//Gültigkeitsbereich prüfen (nur 3er-Potenzen zulassen)
+		if(value % 3 != 0) {
+			if(value < 0) {
+				value = 3 * (value / 3 - 1);
+			}
+			else {
+				value = 3 * (value / 3);
+			}
+		}
 		power = value;
 	}
 	

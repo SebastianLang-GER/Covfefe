@@ -9,11 +9,12 @@ public class UnitPrefixTest {
 		print(up1);
 		
 		//Test Konstruktor mit Festlegen der Zehnerpotenz
-		UnitPrefix up2 = new UnitPrefix(2);
+		UnitPrefix up2 = new UnitPrefix(3);
 		print(up2);
 		
 		//Test aller Einheitenvorsätze
 		for(int i = -6; i <= 6; i++) {
+			System.out.println(i + ":");
 			up2.setPower(i);
 			print(up2);
 		}
