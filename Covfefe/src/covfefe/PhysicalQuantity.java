@@ -1,73 +1,71 @@
 package covfefe;
 
-public class PhysicalQuantity {
+/**
+ * Abstrakte Basisklasse für physikalische Größen
+ * @author Hussein Kaviani
+ * @version 11.06.2018
+ */
+public abstract class PhysicalQuantity {
 	
 	protected double value;
 	protected UnitPrefix prefix;
-	protected String unit;
+	protected final String unit;
 	
 	/**
-	 * Die Klasse PhysicalQuantity ist eine Basisklasse für physikalische Größen. 
-	 * 
+	 * Konstruktor zum Erzeugen von Objekten der Klasse PhysicalQuantity
+	 * @param unit Einheit der physikalischen Größe
 	 */
-	
-	public PhysicalQuantity(){
-		unit = new unit();
-		unit.setValue(value);
+	public PhysicalQuantity(String unit) {
+		setValue(0);
+		prefix = new UnitPrefix();
+		this.unit = unit;
 	}
 	
 	/**
-	 * Methode zur Rückgabe des Werts von value
-	 * @param value Widerstandswert
-	 * @return
-	 */
-	public double getValue(double value) {
-		return value;
-	}
-
-	/**
-	 * Methode zur Festlegung des Werts von value
-	 * @param value Widerstandswert
+	 * Festlegen oder ändern des Werts der physikalischen Größe
+	 * @param value Wert der physikalischen Größe
 	 */
 	public void setValue(double value) {
 		this.value = value;
 	}
 	
 	/**
-	 * Methode zur Rückgabe des Werts von prefix 
-	 * @param prefix 
-	 * @return
+	 * Rückgabe des Werts der physikalischen Größe
+	 * @return Wert der physikalischen Größe
 	 */
-	public UnitPrefix getPrefix(UnitPrefix prefix) {
-		return prefix;
+	public double getValue() {
+		return value;
 	}
 
 	/**
-	 * Methode zum Festlegen des Werts von prefix  
-	 * @param prefix
+	 * Festlegen oder ändern des Einheitenvorsatzes
+	 * @param power Zehnerpotenz
 	 */
-	public void setPrefix(UnitPrefix prefix) {
-		this.prefix = prefix;
+	public void setPrefix(int power) {
+		prefix.setPower(power);
 	}
 
 	/**
-	 * Methode zur Rückgabe des Werts von unit
-	 * @param unit Einheit
-	 * @return
+	 * Rückgabe des Einheitenvorsatzes
+	 * @return Einheitenvorsatz
 	 */
-	public String getUnit(String unit) {
+	public String getPrefix() {
+		return prefix.getPrefix();
+	}
+
+	/**
+	 * Rückgabe der Einheit der physikalischen Größe
+	 * @return Einheit der physikalischen Größe
+	 */
+	public String getUnit() {
 		return unit;
 	}
 	
 	/**
-	 * Methode zur Rückgabe aller Attribute und Eigenschaften als Zeichenkette
+	 * Rückgabe aller Attribute und Eigenschaften der Klasse als Zeichenkette
+	 * @return Attribute und Eigenschaften der Klasse
 	 */
 	public String toString() {
-		return Value.toString() +" "+ Prefix.toString() +" "+ unit.toString();
+		return value + " " + prefix.getPrefix() + unit.toString();
 	}
-
-	
-	
-	
-
 }
