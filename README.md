@@ -2,11 +2,11 @@
 - Programmname: Covfefe (calculation of voltage from E-series for ease)
 - Beschreibung: Programm zur Berechnung eines Spannungsteilers mit Widerstandswahl nach E-Reihen.
 - Version: 1.0.0.0
-- Datum: 06.06.2018
 - Autoren: Sebastian Lang, Tobias Vöth, Dominik Thörmer, Marc Gebert, Hussein Kaviani, Shayan Jani
 - Kontakt: software@sebastianlang.net
 - Copyright: © 2018 Hochschule Furtwangen
 - Lizenz: MIT-Lizenz
+
   Hiermit wird unentgeltlich jeder Person, die eine Kopie der Software und der zugehörigen
   Dokumentationen (die "Software") erhält, die Erlaubnis erteilt, sie uneingeschränkt zu nutzen,
   inklusive und ohne Ausnahme mit dem Recht, sie zu verwenden, zu kopieren, zu verändern,
