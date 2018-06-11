@@ -35,13 +35,12 @@ import javax.imageio.*;
 import javax.swing.*;
 
 /**
- * Hauptklasse, die beim Programmstart aufgerufen wird und die grafische Benutzeroberfläche
- * Sie enthält Methoden zur Auswertung der Benutzersteuerelemente und dient primär dem Ausführen der Berechnungen
+ * Hauptklasse, die beim Programmstart aufgerufen wird und die grafische Benutzeroberfläche enthält
  * @author Sebastian Lang
- * @version 08.06.2018
+ * @version 11.06.2018
  */
+@SuppressWarnings("serial")
 public class Covfefe extends JFrame {
-	private static final long serialVersionUID = 5968568959703649378L; //Serialisierbare Versionsnummer
 	private static final int delay = 3000; //Wartezeit in ms während des Startbildschirms
 	
 	/**
