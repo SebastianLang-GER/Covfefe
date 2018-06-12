@@ -22,6 +22,16 @@ public abstract class PhysicalQuantity {
 	}
 	
 	/**
+	 * Festlegen oder ändern des Werts und Einheitenvorsatzes der physikalischen Größe
+	 * @param value Wert der physikalischen Größe
+	 * @param prefix Einheitenvorsatz der physikalischen Größe
+	 */
+	public void setValue(double value, UnitPrefix prefix) {
+		this.prefix = prefix;
+		setValue(value);
+	}
+	
+	/**
 	 * Festlegen oder ändern des Werts der physikalischen Größe
 	 * @param value Wert der physikalischen Größe
 	 */
@@ -30,10 +40,10 @@ public abstract class PhysicalQuantity {
 		while(Math.abs(value) >= 1000) {
 			value = value / 1000;
 			if(value > 0) {
-				prefix.setPower(prefix.getPower() + 3); //Einheitenvorsatz erhöhen
+				prefix.setPrefix(prefix.getPower() + 3); //Einheitenvorsatz erhöhen
 			}
 			else {
-				prefix.setPower(prefix.getPower() - 3); //Einheitenvorsatz reduzieren
+				prefix.setPrefix(prefix.getPower() - 3); //Einheitenvorsatz reduzieren
 			}
 		}
 		
@@ -53,7 +63,7 @@ public abstract class PhysicalQuantity {
 	 * @param power Zehnerpotenz
 	 */
 	public void setPrefix(int power) {
-		prefix.setPower(power);
+		prefix.setPrefix(power);
 	}
 
 	/**
