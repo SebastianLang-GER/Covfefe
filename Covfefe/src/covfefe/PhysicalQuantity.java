@@ -70,8 +70,8 @@ public abstract class PhysicalQuantity {
 	 * Rückgabe des Einheitenvorsatzes
 	 * @return Einheitenvorsatz
 	 */
-	public String getPrefix() {
-		return prefix.getPrefix();
+	public UnitPrefix getPrefix() {
+		return prefix;
 	}
 
 	/**
