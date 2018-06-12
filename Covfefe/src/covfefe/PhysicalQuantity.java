@@ -77,6 +77,6 @@ public abstract class PhysicalQuantity {
 	 * @return Attribute und Eigenschaften der Klasse
 	 */
 	public String toString() {
-		return value + " " + prefix.getPrefix() + unit.toString();
+		return value + " " + prefix.getPrefix() + unit;
 	}
 }
