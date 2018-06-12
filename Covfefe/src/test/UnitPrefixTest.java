@@ -15,7 +15,7 @@ public class UnitPrefixTest {
 		//Test aller Einheitenvorsätze
 		for(int i = -6; i <= 6; i++) {
 			System.out.println(i + ":");
-			up2.setPower(i);
+			up2.setPrefix(i);
 			print(up2);
 		}
 	}

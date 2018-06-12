@@ -14,7 +14,7 @@ public class UnitPrefix {
 	 * Standardkonstruktor zum Erzeugen von Objekten der Klasse UnitPrefix
 	 */
 	public UnitPrefix() {
-		setPower(0);
+		setPrefix(0);
 	}
 	
 	/**
@@ -22,25 +22,25 @@ public class UnitPrefix {
 	 * @param power Zehnerpotenz
 	 */
 	public UnitPrefix(int power) {
-		setPower(power);
+		setPrefix(power);
 	}
 	
 	/**
-	 * Festlegen oder ändern der Zehnerpotenz
-	 * @param value Zehnerpotenz
+	 * Festlegen oder ändern des Einheitenvorsatzes
+	 * @param power Zehnerpotenz
 	 */
-	public void setPower(int value) {
+	public void setPrefix(int power) {
 		//Gültigkeitsbereich prüfen (nur 3er-Potenzen zulassen)
-		if(value % 3 != 0) {
-			if(value < 0) {
-				value = 3 * (value / 3 - 1);
+		if(power % 3 != 0) {
+			if(power < 0) {
+				power = 3 * (power / 3 - 1);
 			}
 			else {
-				value = 3 * (value / 3);
+				power = 3 * (power / 3);
 			}
 		}
 		
-		power = value;
+		this.power = power;
 	}
 	
 	/**
