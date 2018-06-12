@@ -3,7 +3,7 @@ package covfefe;
 /**
  * Abstrakte Basisklasse für physikalische Größen
  * @author Hussein Kaviani
- * @version 11.06.2018
+ * @version 12.06.2018
  */
 public abstract class PhysicalQuantity {
 	
@@ -26,6 +26,17 @@ public abstract class PhysicalQuantity {
 	 * @param value Wert der physikalischen Größe
 	 */
 	public void setValue(double value) {
+		//Gültigkeitsbereich prüfen (in entsprechende Einheitenvorsätze umformen)
+		while(Math.abs(value) >= 1000) {
+			value = value / 1000;
+			if(value > 0) {
+				prefix.setPower(prefix.getPower() + 3); //Einheitenvorsatz erhöhen
+			}
+			else {
+				prefix.setPower(prefix.getPower() - 3); //Einheitenvorsatz reduzieren
+			}
+		}
+		
 		this.value = value;
 	}
 	
