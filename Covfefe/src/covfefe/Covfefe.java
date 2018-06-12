@@ -37,11 +37,12 @@ import javax.swing.*;
 /**
  * Hauptklasse, die beim Programmstart aufgerufen wird und die grafische Benutzeroberfläche enthält
  * @author Sebastian Lang
- * @version 11.06.2018
+ * @version 12.06.2018
  */
 @SuppressWarnings("serial")
 public class Covfefe extends JFrame {
 	private static final int delay = 3000; //Wartezeit in ms während des Startbildschirms
+	private VoltageDivider voltageDivider;
 	
 	/**
 	 * Standardkonstruktor zum Erzeugen von Objekten der Klasse Covfefe
@@ -61,6 +62,7 @@ public class Covfefe extends JFrame {
 			e.printStackTrace(); //Fehlerausgabe
 		}
 		
+		reset(); //Neue Berechnung vorbereiten
 		
 		//Startbildschirm anzeigen
 		Thread t = new Thread() {
@@ -88,5 +90,38 @@ public class Covfefe extends JFrame {
 	 */
 	public static void main(String[] args) {
 		new Covfefe(); //Hauptfenster initialisieren
+	}
+	
+	/**
+	 * Alle Eingaben zurücksetzen und Benutzersteuerelemente initialisieren
+	 */
+	public void reset() {
+		voltageDivider = new VoltageDivider();
+		
+		//Eingabe-Benutzersteuerelemente zurücksetzen
+		//### Todo
+	}
+	
+	/**
+	 * Eingaben auf Gültigkeit überprüfen und Berechnung durchführen
+	 */
+	public void calculate() {
+		//Verfügbare Eingabeparamater
+		InputParameter parameter = new InputParameter();
+		//### Todo
+		
+		if(voltageDivider.isValidInput(parameter)) {
+			//Eingaben übernehmen
+			//### Todo
+			
+			voltageDivider.calculateValues(); //Berechnung durchführen
+			
+			//Ergebnis ausgeben
+			//### Todo
+		}
+		else {
+			//Ungültige Eingabe anzeigen
+			//### Todo
+		}
 	}
 }
