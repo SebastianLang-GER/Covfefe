@@ -7,9 +7,9 @@ package covfefe;
  */
 public abstract class PhysicalQuantity {
 	
-	protected double value;
-	protected UnitPrefix prefix;
-	protected final String unit;
+	private double value;
+	private UnitPrefix prefix;
+	private final String unit;
 	
 	/**
 	 * Konstruktor zum Erzeugen von Objekten der Klasse PhysicalQuantity
