@@ -3,7 +3,7 @@ package covfefe;
 /**
  * Klasse, zur Übergabe von zur Verfügung stehenden Eingabeparametern
  * @author Shayan Jani
- * @version 12.06.2018
+ * @version 13.06.2018
  */
 public class InputParameter {
 	
@@ -15,10 +15,7 @@ public class InputParameter {
 	private boolean resistor2 = false;
 	private boolean minResistor1 = false;
 	private boolean minResistor2 = false;
-	private boolean factorResistor1toResistor2 = false;
-	private boolean factorResistor2toResistor1 = false;
-	private boolean ratioResistor1toResistor2 = false;
-	private boolean ratioResistor2toResistor1 = false;
+	private boolean ratio = false;
 	
 	/**
 	 * Festlegen oder ändern des Attributs totalVoltage
@@ -149,66 +146,18 @@ public class InputParameter {
 	}
 	
 	/**
-	 * Festlegen oder ändern des Attributs factorResistor1toResistor2 
-	 * @param value Attribut factorResistor1toResistor2
+	 * Festlegen oder ändern des Attributs ratio 
+	 * @param value Attribut ratio
 	 */
-	public void setFactorResistor1toResistor2(boolean value) {
-		factorResistor1toResistor2 = value;
+	public void setRatio(boolean value) {
+		ratio = value;
 	}
 	
 	/**
-	 *  Rückgabe des Attributs factorResistor1toResistor2 
-	 * @return Attribut factorResistor1toResistor2
+	 *  Rückgabe des Attributs ratio 
+	 * @return Attribut ratio
 	 */
-	public boolean getFactorResistor1toResistor2() {
-		return factorResistor1toResistor2;
-	}
-	
-	/**
-	 * Festlegen oder ändern des Attributs factorResistor2toResistor1 
-	 * @param value Attribut factorResistor2toResistor1
-	 */
-	public void setFactorResistor2toResistor1(boolean value) {
-		factorResistor2toResistor1 = value;
-	}
-	
-	/**
-	 * Rückgabe des Attributs factorResistor2toResistor1 
-	 * @return Attribut factorResistor2toResistor1
-	 */
-	public boolean getFactorResistor2toResistor1() {
-		return factorResistor2toResistor1;
-	}
-	
-	/**
-	 * Festlegen oder ändern des Attributs ratioResistor1toResistor2 
-	 * @param value Attribut ratioResistor1toResistor2
-	 */
-	public void setRatioResistor1toResistor2(boolean value) {
-		ratioResistor1toResistor2 = value;
-	}
-	
-	/**
-	 * Rückgabe des Attributs ratioResistor1toResistor2 
-	 * @return Attribut ratioResistor1toResistor2
-	 */
-	public boolean getRatioResistor1toResistor2() {
-		return ratioResistor1toResistor2;
-	}
-	
-	/**
-	 * Festlegen oder ändern des Attributs ratioResistor2toResistor1 
-	 * @param value Attribut ratioResistor2toResistor1
-	 */
-	public void setRatioResistor2toResistor1(boolean value) {
-		ratioResistor2toResistor1 = value;
-	}
-
-	/**
-	 * Rückgabe des Attributs ratioResistor1toResistor2 
-	 * @return Attribut ratioResistor2toResistor1
-	 */
-	public boolean getRatioResistor2toResistor1() {
-		return ratioResistor2toResistor1;
+	public boolean getRatio() {
+		return ratio;
 	}
 }
