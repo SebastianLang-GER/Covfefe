@@ -3,7 +3,7 @@ package covfefe;
 /**
  * Klasse, die einen ohmschen Widerstand als Bauteil repräsentiert
  * @author Sebastian Lang, Hussein Kaviani
- * @version 12.06.2018
+ * @version 14.06.2018
  */
 public class Resistor {
 	
@@ -51,19 +51,7 @@ public class Resistor {
 	 */
 	public void chooseResistor(Resistance resistance) {
 		eSeriesResistance.setPrefix(resistance.getPrefix().getPower()); //Einheitenvorsatz übernehmen
-		
-		//Dezimalfaktor der E-Reihe angleichen
-		int decimalFactor = 0;
-		double value = resistance.getValue();
-		while(Math.abs(value) >= 10) {
-			value = value / 10;
-			if(value > 0) {
-				decimalFactor++; //Dezimalfaktor erhöhen
-			}
-			else {
-				decimalFactor--; //Dezimalfaktor reduzieren
-			}
-		}
+		int decimalFactor = getDecimalFactor(resistance.getValue()); //Dezimalfaktor der E-Reihe angleichen
 		
 		//Widerstand mit der geringsten Abweichung zur E-Reihe ermitteln
 		double minDifference = Double.MAX_VALUE;
@@ -77,9 +65,59 @@ public class Resistor {
 	}
 	
 	/**
+	 * Auswählen des nächst größeren Widerstands anhand der E-Reihe
+	 * @param resistance Widerstand (physikalische Größe)
+	 */
+	public void chooseNextGreaterResistor(Resistance resistance) {
+		eSeriesResistance.setPrefix(resistance.getPrefix().getPower()); //Einheitenvorsatz übernehmen
+		int decimalFactor = getDecimalFactor(resistance.getValue()); //Dezimalfaktor der E-Reihe angleichen
+		
+		//Nächst größeren Widerstand der E-Reihe ermitteln
+		for(int i = 0; i < eSeries.getItems(); i++) {
+			if(eSeries.getValue(i) * Math.pow(10, decimalFactor) >= resistance.getValue()) {
+				eSeriesResistance.setValue(eSeries.getValue(i) * Math.pow(10, decimalFactor)); //Widerstandswert übernehmen
+				return;
+			}
+		}
+		eSeriesResistance.setValue(eSeries.getValue(0) * Math.pow(10, decimalFactor + 1)); //Widerstandswert übernehmen
+	}
+	
+	/**
+	 * Auswählen des nächst kleineren Widerstands anhand der E-Reihe
+	 * @param resistance Widerstand (physikalische Größe)
+	 */
+	public void chooseNextSmallerResistor(Resistance resistance) {
+		eSeriesResistance.setPrefix(resistance.getPrefix().getPower()); //Einheitenvorsatz übernehmen
+		int decimalFactor = getDecimalFactor(resistance.getValue()); //Dezimalfaktor der E-Reihe angleichen
+		
+		//Nächst kleineren Widerstand der E-Reihe ermitteln
+		for(int i = eSeries.getItems() - 1; i >= 0; i--) {
+			if(eSeries.getValue(i) * Math.pow(10, decimalFactor) <= resistance.getValue()) {
+				eSeriesResistance.setValue(eSeries.getValue(i) * Math.pow(10, decimalFactor)); //Widerstandswert übernehmen
+				return;
+			}
+		}
+		eSeriesResistance.setValue(eSeries.getValue(eSeries.getItems() - 1) * Math.pow(10, decimalFactor - 1)); //Widerstandswert übernehmen
+	}
+	
+	/**
 	 * Rückgabe aller Attribute und Eigenschaften der Klasse als Zeichenkette
 	 */
 	public String toString() {
 		return "Wert: " + eSeriesResistance.toString() + "\nE-Reihe: " + eSeries.toString();
+	}
+	
+	private int getDecimalFactor(double value) {
+		int decimalFactor = 0;
+		while(Math.abs(value) >= 10) {
+			value = value / 10;
+			if(value > 0) {
+				decimalFactor++; //Dezimalfaktor erhöhen
+			}
+			else {
+				decimalFactor--; //Dezimalfaktor reduzieren
+			}
+		}
+		return decimalFactor;
 	}
 }
