@@ -10,15 +10,26 @@ public abstract class PhysicalQuantity {
 	private double value;
 	private UnitPrefix prefix;
 	private final String unit;
+	private boolean positiveOnly;
 	
 	/**
 	 * Konstruktor zum Erzeugen von Objekten der Klasse PhysicalQuantity
 	 * @param unit Einheit der physikalischen Größe
 	 */
 	public PhysicalQuantity(String unit) {
+		this(unit, false);
+	}
+	
+	/**
+	 * Konstruktor zum Erzeugen von Objekten der Klasse PhysicalQuantity
+	 * @param unit Einheit der physikalischen Größe
+	 * @param positiveOnly Nur positive Werte
+	 */
+	public PhysicalQuantity(String unit, boolean positiveOnly) {
 		setValue(0);
 		prefix = new UnitPrefix();
 		this.unit = unit;
+		this.positiveOnly = positiveOnly;
 	}
 	
 	/**
@@ -36,6 +47,11 @@ public abstract class PhysicalQuantity {
 	 * @param value Wert der physikalischen Größe
 	 */
 	public void setValue(double value) {
+		//Gültigkeitsbereich prüfen (nur positive Zahlen)
+		if(positiveOnly == true) {
+			value = Math.abs(value);
+		}
+		
 		//Gültigkeitsbereich prüfen (in entsprechende Einheitenvorsätze umformen)
 		while(Math.abs(value) >= 1000) {
 			value = value / 1000;
@@ -80,6 +96,14 @@ public abstract class PhysicalQuantity {
 	 */
 	public String getUnit() {
 		return unit;
+	}
+	
+	/**
+	 * Rückgabe, ob die physikalische Größe nur positive Werte besitzt
+	 * @return Physikalische Größe besitzt nur positive Werte
+	 */
+	public boolean getPositiveOnly() {
+		return positiveOnly;
 	}
 	
 	/**

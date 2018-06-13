@@ -11,6 +11,6 @@ public class Resistance extends PhysicalQuantity {
 	 * Standardkonstruktor zum Erzeugen von Objekten der Klasse Resistance
 	 */
 	public Resistance() {
-		super("Ω");
+		super("Ω", true);
 	}
 }
