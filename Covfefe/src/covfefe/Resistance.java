@@ -1,15 +1,14 @@
 package covfefe;
 
 /**
- * Klasse, welche die Einheit des Widerdstandes festlegt.
+ * Klasse, die einen Widerstand als physikalische Größe repräsentiert
  * @author Dominik Thörmer, Tobias Vöth
  * @version 13.06.2018
  */
-
 public abstract class Resistance extends PhysicalQuantity {
 	
 	/**
-	 * Konstruktor zum Festlegen der Einheit "Ohm"
+	 * Standardkonstruktor zum Erzeugen von Objekten der Klasse Resistance
 	 */
 	public Resistance() {
 		super("Ω");
