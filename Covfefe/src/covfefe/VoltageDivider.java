@@ -235,43 +235,149 @@ public class VoltageDivider {
 		if(validParameter.getRatio()==false) {
 			if(counterVoltage == 2) {
 				if(validParameter.getTotalVoltage() == true && validParameter.getVoltage1() == true) {
-					Test.setValue(this.totalVoltage.getValue() - this.voltages[0].getValue());	
+					this.voltages[1].setValue(this.totalVoltage.getValue() - this.voltages[0].getValue());
 				}
 				
 				if(validParameter.getTotalVoltage() == true && validParameter.getVoltage2() == true) {
-					Test.setValue(this.totalVoltage.getValue() - this.voltages[1].getValue());					
+					this.voltages[0].setValue(this.totalVoltage.getValue() - this.voltages[1].getValue());					
 				}
 				
 				if(validParameter.getVoltage1() == true && validParameter.getVoltage2() == true) {
-					Test.setValue(this.voltages[0].getValue() + this.voltages[1].getValue());				
+					this.totalVoltage.setValue(this.voltages[0].getValue() + this.voltages[1].getValue());				
 				}
 				this.ratio = (this.voltages[0].getValue() / this.voltages[1].getValue());
+				if(validParameter.getTotalResistor() == true) {
+					Probe.setValue(this.totalResistor.getValue().getValue()/(this.ratio + 1));
+					this.resistors[1].chooseResistor(Probe);
+					Probe.setValue(this.totalResistor.getValue().getValue() - this.resistors[1].getValue().getValue());
+					this.resistors[0].chooseResistor(Probe);
+				}
+				if(validParameter.getResistor1() == true) {
+					Probe.setValue(this.resistors[1].getValue().getValue() * this.ratio);
+					this.resistors[1].chooseResistor(Probe);
+					Probe.setValue(this.resistors[0].getValue().getValue() + this.resistors[1].getValue().getValue());
+					this.totalResistor.chooseResistor(Probe);
+				}
+				if(validParameter.getResistor2() == true) {
+					Probe.setValue(this.resistors[0].getValue().getValue() / this.ratio);
+					this.resistors[1].chooseResistor(Probe);
+					Probe.setValue(this.resistors[0].getValue().getValue() + this.resistors[1].getValue().getValue());
+					this.totalResistor.chooseResistor(Probe);
+				}
+				if(validParameter.getMinResistor1() == true && validParameter.getMinResistor2() == false) {
+					Probe.setValue(this.minResistors[0].getValue().getValue());
+					this.resistors[0].chooseResistor(Probe);
+					Probe.setValue(this.resistors[0].getValue().getValue() / this.ratio);
+					this.resistors[1].chooseResistor(Probe);
+					Probe.setValue(this.resistors[0].getValue().getValue() * this.resistors[1].getValue().getValue());
+					this.totalResistor.chooseResistor(Probe);	
+				}
+				
+				if(validParameter.getMinResistor1() == false && validParameter.getMinResistor2() == true) {
+					Probe.setValue(this.minResistors[1].getValue().getValue());
+					this.resistors[1].chooseResistor(Probe);
+					Probe.setValue(this.resistors[1].getValue().getValue() * this.ratio);
+					this.resistors[0].chooseResistor(Probe);
+					Probe.setValue(this.resistors[0].getValue().getValue() * this.resistors[1].getValue().getValue());
+					this.totalResistor.chooseResistor(Probe);	
+				}
+				
+				if(validParameter.getMinResistor1() == false && validParameter.getMinResistor2() == false) {
+					Probe.setValue(1.0);
+					this.resistors[0].chooseResistor(Probe);
+					Probe.setValue(this.resistors[0].getValue().getValue() * this.ratio);
+					this.resistors[1].chooseResistor(Probe);
+					Probe.setValue(this.resistors[0].getValue().getValue() * this.resistors[1].getValue().getValue());
+					this.totalResistor.chooseResistor(Probe);	
+				}
 			}
 			
 			if(counterResistor == 2) {
 				if(validParameter.getTotalResistor() == true && validParameter.getResistor1() == true) {
 					Probe.setValue(this.totalResistor.getValue().getValue() - this.resistors[0].getValue().getValue()) ;	
 				}
-				
 				if(validParameter.getTotalResistor() == true && validParameter.getResistor2() == true) {
 					Probe.setValue(this.totalResistor.getValue().getValue() - this.resistors[1].getValue().getValue());	
 				}
-				
 				if(validParameter.getResistor1() == true && validParameter.getResistor2() == true) {
 					Probe.setValue(this.resistors[0].getValue().getValue() - this.resistors[1].getValue().getValue());	
-				}			
+				}
 				this.ratio = (this.resistors[0].getValue().getValue() / this.resistors[1].getValue().getValue());
 				if(validParameter.getTotalVoltage() == true) {
-					
+					this.voltages[1].setValue(this.totalVoltage.getValue() / (this.ratio+1));
+					this.voltages[0].setValue(this.totalVoltage.getValue() - this.voltages[1].getValue());
 				}
 				if(validParameter.getVoltage1() == true) {
-					this.voltages[0] = this.voltages[1] * this.ratio;
-					this.totalVoltage = this.voltages[0] + this.voltages[1];
+					this.voltages[0].setValue(this.voltages[1].getValue() * this.ratio);
+					this.totalVoltage.setValue(this.voltages[0].getValue() + this.voltages[1].getValue());
 				}
 				if(validParameter.getVoltage2() == true) {
-					
+					this.voltages[1].setValue(this.voltages[0].getValue() / this.ratio);
+					this.totalVoltage.setValue(this.voltages[1].getValue() + this.voltages[0].getValue());
 				}
 			}
 		}
+		
+		else {
+			if(validParameter.getTotalVoltage() == true) {
+				this.voltages[1].setValue(this.totalVoltage.getValue() / (this.ratio+1));
+				this.voltages[0].setValue(this.totalVoltage.getValue() - this.voltages[1].getValue());
+			}
+			if(validParameter.getVoltage1() == true) {
+				this.voltages[0].setValue(this.voltages[1].getValue() * this.ratio);
+				this.totalVoltage.setValue(this.voltages[0].getValue() + this.voltages[1].getValue());
+			}
+			if(validParameter.getVoltage2() == true) {
+				this.voltages[1].setValue(this.voltages[0].getValue() / this.ratio);
+				this.totalVoltage.setValue(this.voltages[1].getValue() + this.voltages[0].getValue());
+			}
+			
+			if(validParameter.getTotalResistor() == true) {
+				Probe.setValue(this.totalResistor.getValue().getValue()/(this.ratio + 1));
+				this.resistors[1].chooseResistor(Probe);
+				Probe.setValue(this.totalResistor.getValue().getValue() - this.resistors[1].getValue().getValue());
+				this.resistors[0].chooseResistor(Probe);
+			}
+			if(validParameter.getResistor1() == true) {
+				Probe.setValue(this.resistors[1].getValue().getValue() * this.ratio);
+				this.resistors[1].chooseResistor(Probe);
+				Probe.setValue(this.resistors[0].getValue().getValue() + this.resistors[1].getValue().getValue());
+				this.totalResistor.chooseResistor(Probe);
+			}
+			if(validParameter.getResistor2() == true) {
+				Probe.setValue(this.resistors[0].getValue().getValue() / this.ratio);
+				this.resistors[1].chooseResistor(Probe);
+				Probe.setValue(this.resistors[0].getValue().getValue() + this.resistors[1].getValue().getValue());
+				this.totalResistor.chooseResistor(Probe);
+			}
+			if(validParameter.getMinResistor1() == true && validParameter.getMinResistor2() == false) {
+				Probe.setValue(this.minResistors[0].getValue().getValue());
+				this.resistors[0].chooseResistor(Probe);
+				Probe.setValue(this.resistors[0].getValue().getValue() / this.ratio);
+				this.resistors[1].chooseResistor(Probe);
+				Probe.setValue(this.resistors[0].getValue().getValue() * this.resistors[1].getValue().getValue());
+				this.totalResistor.chooseResistor(Probe);	
+			}
+			
+			if(validParameter.getMinResistor1() == false && validParameter.getMinResistor2() == true) {
+				Probe.setValue(this.minResistors[1].getValue().getValue());
+				this.resistors[1].chooseResistor(Probe);
+				Probe.setValue(this.resistors[1].getValue().getValue() * this.ratio);
+				this.resistors[0].chooseResistor(Probe);
+				Probe.setValue(this.resistors[0].getValue().getValue() * this.resistors[1].getValue().getValue());
+				this.totalResistor.chooseResistor(Probe);	
+			}
+			
+			if(validParameter.getMinResistor1() == false && validParameter.getMinResistor2() == false) {
+				Probe.setValue(1.0);
+				this.resistors[0].chooseResistor(Probe);
+				Probe.setValue(this.resistors[0].getValue().getValue() * this.ratio);
+				this.resistors[1].chooseResistor(Probe);
+				Probe.setValue(this.resistors[0].getValue().getValue() * this.resistors[1].getValue().getValue());
+				this.totalResistor.chooseResistor(Probe);	
+			}
+			
+		}
+		
 	}
 }
