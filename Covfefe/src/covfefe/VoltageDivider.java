@@ -15,8 +15,8 @@ public class VoltageDivider {
 	private Voltage[] voltages;
 	private Voltage totalVoltage;
 	private Resistor totalResistor;
-	private double ratio;
-	InputParameter validParameter;
+	private double ratio;								//Resistor 1 zu Resistor 2
+	private InputParameter validParameter;
 	
 	public VoltageDivider() {
 		calculationCompleted = false;
@@ -174,6 +174,14 @@ public class VoltageDivider {
 	/**
 	 * @param ratio the ratio to set
 	 */
+	public boolean isValidInput(InputParameter parameter) {
+		validParameter = parameter;
+		return isValidInput();
+	}
+	
+	/**
+	 * @param ratio the ratio to set
+	 */
 	public boolean isValidInput() {
 		int counterVoltage = 0;
 		int counterResistor = 0;
@@ -200,6 +208,70 @@ public class VoltageDivider {
 			if(counterVoltage == 2 && ((counterMinResistor == 0 && counterResistor == 1) || (counterMinResistor >= 0 && counterResistor == 0))) return true;
 			if(counterResistor == 2 && counterMinResistor == 0 && counterVoltage == 1) return true;
 			return false;
+		}
+	}
+	
+	/**
+	 * @param ratio the ratio to set
+	 */
+	public void calculateValues() {
+		int counterVoltage = 0;
+		int counterResistor = 0;
+		int counterMinResistor = 0;
+		Voltage Test = new Voltage();
+		Resistance Probe = new Resistance();
+			
+		if(validParameter.getTotalVoltage() == true) counterVoltage++;
+		if(validParameter.getVoltage1() == true) counterVoltage++;
+		if(validParameter.getVoltage2() == true) counterVoltage++;
+		
+		if(validParameter.getTotalResistor() == true) counterResistor++;
+		if(validParameter.getResistor1() == true) counterResistor++;
+		if(validParameter.getResistor2() == true) counterResistor++;
+		
+		if(validParameter.getMinResistor1() == true) counterMinResistor++;
+		if(validParameter.getMinResistor2() == true) counterMinResistor++;
+		
+		if(validParameter.getRatio()==false) {
+			if(counterVoltage == 2) {
+				if(validParameter.getTotalVoltage() == true && validParameter.getVoltage1() == true) {
+					Test.setValue(this.totalVoltage.getValue() - this.voltages[0].getValue());	
+				}
+				
+				if(validParameter.getTotalVoltage() == true && validParameter.getVoltage2() == true) {
+					Test.setValue(this.totalVoltage.getValue() - this.voltages[1].getValue());					
+				}
+				
+				if(validParameter.getVoltage1() == true && validParameter.getVoltage2() == true) {
+					Test.setValue(this.voltages[0].getValue() + this.voltages[1].getValue());				
+				}
+				this.ratio = (this.voltages[0].getValue() / this.voltages[1].getValue());
+			}
+			
+			if(counterResistor == 2) {
+				if(validParameter.getTotalResistor() == true && validParameter.getResistor1() == true) {
+					Probe.setValue(this.totalResistor.getValue().getValue() - this.resistors[0].getValue().getValue()) ;	
+				}
+				
+				if(validParameter.getTotalResistor() == true && validParameter.getResistor2() == true) {
+					Probe.setValue(this.totalResistor.getValue().getValue() - this.resistors[1].getValue().getValue());	
+				}
+				
+				if(validParameter.getResistor1() == true && validParameter.getResistor2() == true) {
+					Probe.setValue(this.resistors[0].getValue().getValue() - this.resistors[1].getValue().getValue());	
+				}			
+				this.ratio = (this.resistors[0].getValue().getValue() / this.resistors[1].getValue().getValue());
+				if(validParameter.getTotalVoltage() == true) {
+					
+				}
+				if(validParameter.getVoltage1() == true) {
+					this.voltages[0] = this.voltages[1] * this.ratio;
+					this.totalVoltage = this.voltages[0] + this.voltages[1];
+				}
+				if(validParameter.getVoltage2() == true) {
+					
+				}
+			}
 		}
 	}
 }
