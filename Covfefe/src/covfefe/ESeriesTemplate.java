@@ -1,9 +1,9 @@
 package covfefe;
 
 /**
- * Vorlage zur Erzeugung von Objekten, die verschiedene E-Reihen repräsentieren
- * @author Marc
- * @version 13.06.2018
+ * Klasse zur Erzeugung von Objekten, die verschiedene E-Reihen repräsentieren
+ * @author Marc Gebert
+ * @version 14.06.2018
  */
 public class ESeriesTemplate {
 
@@ -26,7 +26,7 @@ public class ESeriesTemplate {
 	* Rückgabe der Anzahl der Elemente der E-Reihe
 	* @return Anzahl der Elemente der E-Reihe
 	*/
-	public int getItems(){
+	public int getItems() {
 		return items;
 	}
 	
@@ -34,7 +34,7 @@ public class ESeriesTemplate {
 	* Rückgabe der Toleranz der E-Reihen 
 	* @return Toleranz der E-Reihe
 	*/
-	public double getTolerance(){
+	public double getTolerance() {
 		return tolerance;
 	}
 	
@@ -42,44 +42,48 @@ public class ESeriesTemplate {
 	* Rückgabe der E-Reihen-Toleranz als Zeichenfolge 
 	* @return Toleranz der E-Reihe
 	*/
-	public String getToleranceAsString(){
+	public String getToleranceAsString() {
 		return tolerance + " %";
 	}
 	
 	/**
-	* Rückgabe der Werte der E-Reihe als Array
-	* @return alle Werte der E-Reihe als Array
+	* Rückgabe aller Werte der E-Reihe als Array
+	* @return Alle Werte der E-Reihe als Array
 	*/
-	public double[] getValues(){
+	public double[] getValues() {
 		return values;
 	}
 	
 	/**
-	* Rückgabe eines bestimmten Werts der E-Reihe 
+	* Rückgabe eines bestimmten Werts der E-Reihe
 	* @param index Element der E-Reihe
-	* @return bestimmter Wert der E-Reihe
+	* @return Angeforderter Wert der E-Reihe
 	*/
-	public double getValue(int index){
+	public double getValue(int index) {
 		return values[index];
 	}
 	
-	private void calculateValues(){
-		values = new double[items];
-		
-	}
-	
 	/**
-	* Rückgabe des Namens der E-Reihe 
+	* Rückgabe des Namens der E-Reihe
 	* @return Name der E-Reihe
 	*/
-	public String getName(){
-		return "";
+	public String getName() {
+		return "E" + items + "-Reihe";
 	}
 	
 	/**
-	* Rückgabe aller Attribute und Eigenschaften 
+	* Rückgabe aller Attribute und Eigenschaften der Klasse als Zeichenkette
 	*/
-	public String toString(){
-		return "";
+	public String toString() {
+		String properties = getName() + " (" + getToleranceAsString() + "):";
+		for(double value:values) {
+			properties += "\n" + value;
+		}
+		return properties;
+	}
+	
+	private void calculateValues() {
+		values = new double[items];
+		//### Todo
 	}
 }
