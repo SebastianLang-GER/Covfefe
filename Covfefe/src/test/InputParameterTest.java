@@ -62,30 +62,6 @@ public class InputParameterTest {
 			ip1.setMinResistor2(parameter);
 			System.out.println("minResistor2: \t\t\t" + parameter + "\t" + ip1.getMinResistor2());
 			if(parameter != ip1.getMinResistor2()) errors++;
-			
-			//Test: factorResistor1toResistor2
-			parameter = getRandomBoolean();
-			ip1.setFactorResistor1toResistor2(parameter);
-			System.out.println("factorResistor1toResistor2: \t" + parameter + "\t" + ip1.getFactorResistor1toResistor2());
-			if(parameter != ip1.getFactorResistor1toResistor2()) errors++;
-			
-			//Test: factorResistor2toResistor1
-			parameter = getRandomBoolean();
-			ip1.setFactorResistor2toResistor1(parameter);
-			System.out.println("factorResistor2toResistor1: \t" + parameter + "\t" + ip1.getFactorResistor2toResistor1());
-			if(parameter != ip1.getFactorResistor2toResistor1()) errors++;
-			
-			//Test: ratioResistor1toResistor2
-			parameter = getRandomBoolean();
-			ip1.setRatioResistor1toResistor2(parameter);
-			System.out.println("ratioResistor1toResistor2: \t" + parameter + "\t" + ip1.getRatioResistor1toResistor2());
-			if(parameter != ip1.getRatioResistor1toResistor2()) errors++;
-			
-			//Test: ratioResistor2toResistor1
-			parameter = getRandomBoolean();
-			ip1.setRatioResistor2toResistor1(parameter);
-			System.out.println("ratioResistor2toResistor1: \t" + parameter + "\t" + ip1.getRatioResistor2toResistor1());
-			if(parameter != ip1.getRatioResistor2toResistor1()) errors++;
 		}
 		System.out.println("\nTest mit " + errors + " Fehlern beendet");
 	}
