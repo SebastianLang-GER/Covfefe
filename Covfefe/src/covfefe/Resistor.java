@@ -104,10 +104,15 @@ public class Resistor {
 	 * Rückgabe aller Attribute und Eigenschaften der Klasse als Zeichenkette
 	 */
 	public String toString() {
-		return "Wert: " + eSeriesResistance.toString() + "\nE-Reihe: " + eSeries.toString();
+		return "Wert: " + eSeriesResistance + "\nE-Reihe: " + eSeries;
 	}
 	
-	private int getDecimalFactor(double value) {
+	/**
+	 * Rückgabe des Dezimalfaktors einer Gleitkommazahl
+	 * @param value Gleitkommazahl dessen Dezimalfaktor zurückgegeben werden soll
+	 * @return Dezimalfaktor der Gleitkommazahl
+	 */
+	private static int getDecimalFactor(double value) {
 		int decimalFactor = 0;
 		while(Math.abs(value) >= 10) {
 			value = value / 10;

@@ -3,7 +3,7 @@ package covfefe;
 /**
  * Klasse zur Erzeugung von Objekten, die verschiedene E-Reihen repräsentieren
  * @author Marc Gebert
- * @version 14.06.2018
+ * @version 15.06.2018
  */
 public class ESeriesTemplate {
 
@@ -43,7 +43,7 @@ public class ESeriesTemplate {
 	* @return Toleranz der E-Reihe
 	*/
 	public String getToleranceAsString() {
-		return tolerance + " %";
+		return "±" + String.format(getTolerance() < 1 ? "%.1f" : "%.0f", tolerance) + " %";
 	}
 	
 	/**
@@ -77,13 +77,28 @@ public class ESeriesTemplate {
 	public String toString() {
 		String properties = getName() + " (" + getToleranceAsString() + "):";
 		for(double value:values) {
-			properties += "\n" + value;
+			properties += "\n" + String.format(getTolerance() > 5 ? "%.1f" : "%.2f", value);
 		}
 		return properties;
 	}
 	
+	/**
+	 * Berechnung aller Werte der E-Reihe
+	 */
 	private void calculateValues() {
 		values = new double[items];
-		//### Todo
+		for(int i = 0; i < items; i++) {
+			values[i] = roundToDecimals(Math.pow(Math.pow(10, i), 1.0 / items), getTolerance() > 5 ? 1 : 2);
+		}
+	}
+	
+	/**
+	 * Gleitkommazahl auf eine bestimmte Anzahl von Nachkommastellen runden
+	 * @param number Gleitkommazahl, die gerundet werden soll
+	 * @param decimal Anzahl der Nachkommastellen
+	 * @return Gerundete Gleitkommazahl
+	 */
+	private static double roundToDecimals(double number, int decimal) {
+		return (int)(number * Math.pow(10, decimal)) / (double)Math.pow(10, decimal);  
 	}
 }
