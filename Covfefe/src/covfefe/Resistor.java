@@ -25,7 +25,7 @@ public class Resistor {
 	 * Rückgabe des Widerstands (physikalische Größe)
 	 * @return Widerstand (physikalische Größe)
 	 */
-	public Resistance getValue() {
+	public Resistance getResistance() {
 		return eSeriesResistance;
 	}
 	
