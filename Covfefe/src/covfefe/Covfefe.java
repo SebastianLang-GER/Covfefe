@@ -112,16 +112,16 @@ public class Covfefe extends JFrame {
 		
 		if(voltageDivider.isValidInput(parameter)) {
 			//Eingaben übernehmen
-			//### Todo
+			//### Todo: Werte aus GUI einlesen
 			
 			voltageDivider.calculateValues(); //Berechnung durchführen
 			
 			//Ergebnis ausgeben
-			//### Todo
+			//### Todo: Werte in GUI übernehmen
 		}
 		else {
 			//Ungültige Eingabe anzeigen
-			//### Todo
+			//### Todo: Benachrichtigung ausgeben, Anzeige auf GUI
 		}
 	}
 }
