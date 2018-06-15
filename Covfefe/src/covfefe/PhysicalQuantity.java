@@ -3,7 +3,7 @@ package covfefe;
 /**
  * Abstrakte Basisklasse für physikalische Größen
  * @author Hussein Kaviani
- * @version 12.06.2018
+ * @version 13.06.2018
  */
 public abstract class PhysicalQuantity {
 	

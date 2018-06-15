@@ -3,7 +3,7 @@ package covfefe;
 /**
  * Klasse, die Vorsätze einer physikalischen Einheit repräsentiert
  * @author Shayan Jani
- * @version 11.06.2018
+ * @version 13.06.2018
  */
 public class UnitPrefix {
 
