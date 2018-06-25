@@ -5,7 +5,7 @@
 * - Datum: 15.06.2018                                                                                *
 * - Autoren: Sebastian Lang, Tobias Vöth, Dominik Thörmer, Marc Gebert, Hussein Kaviani, Shayan Jani *
 * - Kontakt: software@sebastianlang.net                                                              *
-* - Copyright: © 2018 Hochschule Furtwangen                                                          *
+* - Copyright: © 2018 Hochschule Furtwangen University                                               *
 * - Lizenz: MIT-Lizenz                                                                               *
 *   Hiermit wird unentgeltlich jeder Person, die eine Kopie der Software und der zugehörigen         *
 *   Dokumentationen (die "Software") erhält, die Erlaubnis erteilt, sie uneingeschränkt zu nutzen,   *
