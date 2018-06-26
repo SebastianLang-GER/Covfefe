@@ -104,7 +104,7 @@ public class Resistor {
 	 * Rückgabe aller Attribute und Eigenschaften der Klasse als Zeichenkette
 	 */
 	public String toString() {
-		return "Wert: " + eSeriesResistance + "\nE-Reihe: " + eSeries;
+		return "Wert: " + eSeriesResistance + "\nE-Reihe: " + getESeries().getName();
 	}
 	
 	/**
