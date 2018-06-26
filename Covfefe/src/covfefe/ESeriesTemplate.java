@@ -2,8 +2,8 @@ package covfefe;
 
 /**
  * Klasse zur Erzeugung von Objekten, die verschiedene E-Reihen repräsentieren
- * @author Marc Gebert
- * @version 15.06.2018
+ * @author Marc Gebert, Dominik Thörmer, Tobias Vöth
+ * @version 26.06.2018
  */
 public class ESeriesTemplate {
 
@@ -88,7 +88,21 @@ public class ESeriesTemplate {
 	private void calculateValues() {
 		values = new double[items];
 		for(int i = 0; i < items; i++) {
-			values[i] = roundToDecimals(Math.pow(Math.pow(10, i), 1.0 / items), getTolerance() > 5 ? 1 : 2);
+			values[i] = roundToDecimals(Math.pow(Math.pow(10, i), 1.0 / items), getTolerance() >= 5 ? 1 : 2);
+			if (items <= 24) {
+				if (values[i] >= 2.6 && values[i] <= 4.7) {
+					values[i] += 0.1;
+					values[i] = roundToDecimals((values[i]), 1);
+				}
+				else if (values[i] == 8.3) {
+					values[i] -= 0.1;
+					values[i] = roundToDecimals((values[i]), 1);
+				}
+			}
+			if (values[i] == 9.19) {
+				values[i] += 0.01;
+				values[i] = roundToDecimals(values[i], 2);
+			}
 		}
 	}
 	
@@ -99,6 +113,6 @@ public class ESeriesTemplate {
 	 * @return Gerundete Gleitkommazahl
 	 */
 	private static double roundToDecimals(double number, int decimal) {
-		return (int)(number * Math.pow(10, decimal)) / (double)Math.pow(10, decimal);  
+		return (int)(number * Math.pow(10, decimal)+0.5) / (double)Math.pow(10, decimal);  
 	}
 }
