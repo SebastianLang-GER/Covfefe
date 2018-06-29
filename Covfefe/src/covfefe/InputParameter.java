@@ -7,15 +7,46 @@ package covfefe;
  */
 public class InputParameter {
 	
-	private boolean totalVoltage = false;
-	private boolean voltage1 = false;
-	private boolean voltage2 = false;
-	private boolean totalResistor = false;
-	private boolean resistor1 = false;
-	private boolean resistor2 = false;
-	private boolean minResistor1 = false;
-	private boolean minResistor2 = false;
-	private boolean ratio = false;
+	private boolean totalVoltage;
+	private boolean voltage1;
+	private boolean voltage2;
+	private boolean totalResistor;
+	private boolean resistor1;
+	private boolean resistor2;
+	private boolean minResistor1;
+	private boolean minResistor2;
+	private boolean ratio;
+	
+	/**
+	 * Standardkonstruktor zum Erzeugen von Objekten der Klasse InputParameter
+	 */
+	public InputParameter() {
+		this(false, false, false, false,false, false, false, false, false);
+	}
+	
+	/**
+	 * Konstruktor zum Erzeugen von Objekten der Klasse InputParameter mit Festlegen der Parameter
+	 * @param totalVoltage Attribut totalVoltage
+	 * @param voltage1 Attribut voltage1
+	 * @param voltage2 Attribut voltage2
+	 * @param totalResistor Attribut totalResistor
+	 * @param resistor1 Attribut resistor1
+	 * @param resistor2 Attribut resistor2
+	 * @param minResistor1 Attribut minResistor1
+	 * @param minResistor2 Attribut minResistor2
+	 * @param ratio Attribut ratio
+	 */
+	public InputParameter(boolean totalVoltage, boolean voltage1, boolean voltage2, boolean totalResistor, boolean resistor1, boolean resistor2, boolean minResistor1, boolean minResistor2, boolean ratio ) {
+		this.totalVoltage = totalVoltage;
+		this.voltage1 = voltage1;
+		this.voltage2 = voltage2;
+		this.totalResistor = totalResistor;
+		this.resistor1 = resistor1;
+		this.resistor2 = resistor2;
+		this.minResistor1 = minResistor1;
+		this.minResistor2 = minResistor2;
+		this.ratio = ratio;
+	}
 	
 	/**
 	 * Festlegen oder ändern des Attributs totalVoltage
