@@ -25,7 +25,7 @@
 *   SONSTIGER VERWENDUNG DER SOFTWARE ENTSTANDEN.                                                    *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-//Notwendige Debugging-Konfiguration: VM arguments: -splash:src/Covfefe.png
+//Notwendige Debugging-Konfiguration: VM arguments: -splash:res/Covfefe.png
 
 package covfefe;
 
