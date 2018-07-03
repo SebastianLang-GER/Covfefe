@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 * - Programmname: Covfefe (calculation of voltage from E-series for ease)                            *
-* - Beschreibung: Programm zur Berechnung eines Spannungsteilers mit Widerstandswahl nach E-Reihen.  *
+* - Beschreibung: Programm zur Berechnung eines Spannungsteilers mit Widerstandswahl nach E-Reihen   *
 * - Version: 1.0.0.0                                                                                 *
 * - Datum: 15.06.2018                                                                                *
 * - Autoren: Sebastian Lang, Tobias Vöth, Dominik Thörmer, Marc Gebert, Hussein Kaviani, Shayan Jani *
@@ -25,14 +25,15 @@
 *   SONSTIGER VERWENDUNG DER SOFTWARE ENTSTANDEN.                                                    *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-//Notwendige Debugging-Konfiguration: VM arguments: -splash:res/Covfefe.png
+//Notwendige Debugging-Konfiguration: VM arguments: -splash:src/res/Covfefe.png
+//Notwendige Manifest-Ergänzung in JAR-Datei: SplashScreen-Image: res/Covfefe.png
 
 package covfefe;
 
 import java.awt.*;
-import java.io.*;
-import javax.imageio.*;
 import javax.swing.*;
+import javax.swing.border.*;
+import org.apache.batik.swing.*;
 
 /**
  * Hauptklasse, die beim Programmstart aufgerufen wird und die grafische Benutzeroberfläche enthält
@@ -54,32 +55,107 @@ public class Covfefe extends JFrame {
 		setSize(800, 600); //Fenstergröße festlegen
 		setLocationRelativeTo(null); //Fenster auf Bildschirm zentrieren
 		try {
-			Image icon = ImageIO.read(ClassLoader.getSystemResourceAsStream("Covfefe.png")); //Icon laden
-			this.setIconImage(icon); //Fenstericon festlegen
-		} catch (IOException e) {
-			e.printStackTrace(); //Fehlerausgabe
+			setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/res/Covfefe.png")));
+		} catch (Exception e) {
+			System.out.println("Fehler: Icon kann nicht geladen werden."); //Fehlerausgabe
+			SystemSounds.play(SystemSounds.Sound.Hand);
+			JOptionPane.showMessageDialog(null, "Icon kann nicht geladen werden.", "Covfefe: Fehler", JOptionPane.ERROR_MESSAGE); //Fehlermeldung
 		}
-		
-		reset(); //Neue Berechnung vorbereiten
+		getContentPane().setLayout(new BorderLayout(0, 0)); //Layoutmanager festlegen
 		
 		//Startbildschirm anzeigen
 		Thread t = new Thread() {
 			public void run() {
 				final SplashScreen splash = SplashScreen.getSplashScreen(); //Startbildschirm erzeugen
 				if (splash == null) {
-					System.out.println("Fehler: SplashScreen kann nicht erzeugt werden."); //Fehlerausgabe
-					return; //Thread beenden
+					System.out.println("Fehler: Startbildschirm kann nicht erzeugt werden."); //Fehlerausgabe
+					SystemSounds.play(SystemSounds.Sound.Hand);
+					JOptionPane.showMessageDialog(null, "Startbildschirm kann nicht erzeugt werden.", "Covfefe: Fehler", JOptionPane.ERROR_MESSAGE); //Fehlermeldung
 				}
-				try {
-					Thread.sleep(delay); //Verzögerung
-				} catch (InterruptedException e) {
-					e.printStackTrace(); //Fehlerausgabe
+				else {
+					try {
+						Thread.sleep(delay); //Verzögerung
+					} catch (InterruptedException e) {
+						e.printStackTrace(); //Fehlerausgabe
+					}
 				}
 				Covfefe.this.setVisible(true); //Hauptfenster anzeigen und Startbildschirm schließen
 				Covfefe.this.toFront(); //Hauptfenster in den Vordergrund bringen
 			}
 		};
 		t.start(); //Thread starten
+
+		//Steuerelemente hinzufügen
+		JSplitPane splitPane = new JSplitPane();
+		splitPane.setResizeWeight(0.5);
+		getContentPane().add(splitPane);
+		
+		JPanel leftSplitPanePanel = new JPanel();
+		splitPane.setLeftComponent(leftSplitPanePanel);
+		leftSplitPanePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JPanel groupResistorPanel = new JPanel();
+		groupResistorPanel.setBorder(new TitledBorder(null, "Widerst\u00E4nde", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		leftSplitPanePanel.add(groupResistorPanel);
+		groupResistorPanel.setLayout(new GridLayout(0, 3, 5, 5));
+		
+		JLabel lblStandardSeries = new JLabel("Normreihe:");
+		groupResistorPanel.add(lblStandardSeries);
+		
+		JComboBox comboBoxESeries = new JComboBox();
+		comboBoxESeries.setToolTipText("E-Reihe");
+		groupResistorPanel.add(comboBoxESeries);
+		
+		JPanel placeHolderPanel1 = new JPanel();
+		groupResistorPanel.add(placeHolderPanel1);
+		
+		JLabel lblResistor1 = new JLabel("Widerstand R1:");
+		groupResistorPanel.add(lblResistor1);
+		
+		JSpinner spinnerResistor1 = new JSpinner();
+		groupResistorPanel.add(spinnerResistor1);
+		
+		JComboBox comboBoxUnitWithPrefixResistor1 = new JComboBox();
+		groupResistorPanel.add(comboBoxUnitWithPrefixResistor1);
+		
+		JLabel lblResistor2 = new JLabel("Widerstand R2:");
+		groupResistorPanel.add(lblResistor2);
+		
+		JSpinner spinnerResistor2 = new JSpinner();
+		groupResistorPanel.add(spinnerResistor2);
+		
+		JComboBox comboBoxUnitWithPrefixResistor2 = new JComboBox();
+		groupResistorPanel.add(comboBoxUnitWithPrefixResistor2);
+		
+		JLabel lblTotalResistor = new JLabel("Gesamtwiderstand:");
+		groupResistorPanel.add(lblTotalResistor);
+		
+		JSpinner spinnerTotalResistor = new JSpinner();
+		groupResistorPanel.add(spinnerTotalResistor);
+		
+		JComboBox comboBoxUnitWithPrefixTotalResistor = new JComboBox();
+		groupResistorPanel.add(comboBoxUnitWithPrefixTotalResistor);
+		
+		JPanel rightSplitPanePanel = new JPanel();
+		splitPane.setRightComponent(rightSplitPanePanel);
+		rightSplitPanePanel.setLayout(new BorderLayout(0, 0));
+		
+		JPanel buttonPanel = new JPanel();
+		rightSplitPanePanel.add(buttonPanel, BorderLayout.SOUTH);
+		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JButton btnReset = new JButton("Zur\u00FCcksetzen");
+		buttonPanel.add(btnReset);
+		
+		JButton btnCalculate = new JButton("Berechnen");
+		buttonPanel.add(btnCalculate);
+		
+		JSVGCanvas svgCanvas = new JSVGCanvas();
+		svgCanvas.setBackground(new Color(240, 240, 240));
+		svgCanvas.setURI("file:src/res/Spannungsteiler.svg");
+		rightSplitPanePanel.add(svgCanvas, BorderLayout.CENTER);
+		
+		reset(); //Neue Berechnung vorbereiten
 	}
 
 	/**
