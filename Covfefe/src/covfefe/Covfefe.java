@@ -140,20 +140,28 @@ public class Covfefe extends JFrame {
 		splitPane.setRightComponent(rightSplitPanePanel);
 		rightSplitPanePanel.setLayout(new BorderLayout(0, 0));
 		
-		JPanel buttonPanel = new JPanel();
-		rightSplitPanePanel.add(buttonPanel, BorderLayout.SOUTH);
-		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		JButton btnReset = new JButton("Zur\u00FCcksetzen");
-		buttonPanel.add(btnReset);
-		
-		JButton btnCalculate = new JButton("Berechnen");
-		buttonPanel.add(btnCalculate);
-		
 		JSVGCanvas svgCanvas = new JSVGCanvas();
+		svgCanvas.setRecenterOnResize(false);
 		svgCanvas.setBackground(new Color(240, 240, 240));
 		svgCanvas.setURI("file:src/res/Spannungsteiler.svg");
 		rightSplitPanePanel.add(svgCanvas, BorderLayout.CENTER);
+		
+		JPanel buttonPanelWithSeperator = new JPanel();
+		rightSplitPanePanel.add(buttonPanelWithSeperator, BorderLayout.SOUTH);
+		buttonPanelWithSeperator.setLayout(new BorderLayout(0, 0));
+		
+		JSeparator separator = new JSeparator();
+		buttonPanelWithSeperator.add(separator, BorderLayout.NORTH);
+		
+		JPanel panel = new JPanel();
+		buttonPanelWithSeperator.add(panel);
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JButton btnReset = new JButton("Zur\u00FCcksetzen");
+		panel.add(btnReset);
+		
+		JButton btnCalculate = new JButton("Berechnen");
+		panel.add(btnCalculate);
 		
 		reset(); //Neue Berechnung vorbereiten
 	}
