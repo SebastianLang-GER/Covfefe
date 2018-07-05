@@ -36,13 +36,13 @@
 package covfefe;
 
 import java.awt.*;
+import java.io.*;
+import java.net.*;
+import java.awt.event.*;
+import javax.swing.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import org.apache.batik.swing.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 
 /**
  * Hauptklasse, die beim Programmstart aufgerufen wird und die grafische Benutzeroberfläche enthält
@@ -519,7 +519,31 @@ public class Covfefe extends JFrame {
 		svgCanvas.setToolTipText("Patrick-Emil Z\u00F6rner (Paddy)\r\nhttps://commons.wikimedia.org/wiki/File:Spannungsteiler.svg");
 		svgCanvas.setRecenterOnResize(false);
 		svgCanvas.setBackground(new Color(240, 240, 240));
-		svgCanvas.setURI("file:" + (debugging ? "src/" : "") + "res/Spannungsteiler.svg");
+		/*
+		File file = null;
+	    String resource = "/com/myorg/foo.xml";
+	    URL res = getClass().getResource(resource);
+	    if (res.toString().startsWith("jar:")) {
+	        try {
+	            InputStream input = getClass().getResourceAsStream(resource);
+	            file = File.createTempFile("tempfile", ".tmp");
+	            OutputStream out = new FileOutputStream(file);
+	            int read;
+	            byte[] bytes = new byte[1024];
+
+	            while ((read = input.read(bytes)) != -1) {
+	                out.write(bytes, 0, read);
+	            }
+	            file.deleteOnExit();
+	        } catch (IOException ex) {
+	            Exceptions.printStackTrace(ex);
+	        }
+	    } else {
+	        //this will probably work in your IDE, but not from a JAR
+	        file = new File(res.getFile());
+	    }
+		*/
+		//svgCanvas.setURI((debugging ? "file:src/" : "jar://") + "res/Spannungsteiler.svg");
 		
 		JPanel buttonPanelWithSeperator = new JPanel();
 		rightSplitPanePanel.add(buttonPanelWithSeperator, BorderLayout.SOUTH);
