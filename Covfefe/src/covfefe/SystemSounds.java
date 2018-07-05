@@ -5,7 +5,7 @@ import java.awt.Toolkit;
 /**
  * Klasse zur Ausgabe von Systemsounds
  * @author Sebastian Lang
- * @version 15.06.2018
+ * @version 05.07.2018
  */
 public final class SystemSounds {
 

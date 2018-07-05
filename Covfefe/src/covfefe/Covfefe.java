@@ -34,6 +34,10 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import org.apache.batik.swing.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 /**
  * Hauptklasse, die beim Programmstart aufgerufen wird und die grafische Benutzeroberfläche enthält
@@ -45,6 +49,30 @@ public class Covfefe extends JFrame {
 	private static final int delay = 3000; //Wartezeit in ms während des Startbildschirms
 	private VoltageDivider voltageDivider;
 	
+	//GUI-Komponenten
+	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
+	private JSpinner spnValueResistor1 = new JSpinner();
+	private JSpinner spnMinResistor1 = new JSpinner();
+	private JSpinner spnValueResistor2 = new JSpinner();
+	private JSpinner spnMinResistor2 = new JSpinner();
+	private JSpinner spnValueTotalResistor = new JSpinner();
+	private JSpinner spnValueVoltage1 = new JSpinner();
+	private JSpinner spnValueVoltage2 = new JSpinner();
+	private JSpinner spnValueTotalVoltage = new JSpinner();
+	private JSpinner spnRatioA = new JSpinner();
+	private JSpinner spnRatioB = new JSpinner();
+	private JSpinner spnFactor = new JSpinner();
+	private JComboBox cbESeries = new JComboBox();
+	private JComboBox cbUnitWithPrefixResistor1 = new JComboBox();
+	private JComboBox cbUnitWithPrefixMinResistor1 = new JComboBox();
+	private JComboBox cbUnitWithPrefixResistor2 = new JComboBox();
+	private JComboBox cbUnitWithPrefixMinResistor2 = new JComboBox();
+	private JComboBox cbUnitWithPrefixTotalResistor = new JComboBox();
+	private JComboBox cbUnitWithPrefixVoltage1 = new JComboBox();
+	private JComboBox cbUnitWithPrefixVoltage2 = new JComboBox();
+	private JComboBox cbUnitWithPrefixTotalVoltage = new JComboBox();
+
 	/**
 	 * Standardkonstruktor zum Erzeugen von Objekten der Klasse Covfefe
 	 */
@@ -53,6 +81,7 @@ public class Covfefe extends JFrame {
 		super("Covfefe"); //Fenstertitel festlegen
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Anwendung nach Klicken auf den Schließen-Button beenden
 		setSize(800, 600); //Fenstergröße festlegen
+		setMinimumSize(new Dimension(610, 510)); //Minimale Fenstergröße festlegen
 		setLocationRelativeTo(null); //Fenster auf Bildschirm zentrieren
 		try {
 			setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/res/Covfefe.png")));
@@ -92,59 +121,399 @@ public class Covfefe extends JFrame {
 		
 		JPanel leftSplitPanePanel = new JPanel();
 		splitPane.setLeftComponent(leftSplitPanePanel);
-		leftSplitPanePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		GridBagLayout gbl_leftSplitPanePanel = new GridBagLayout();
+		gbl_leftSplitPanePanel.columnWeights = new double[]{1.0};
+		gbl_leftSplitPanePanel.rowWeights = new double[]{1.0, 0.0, 0.0};
+		leftSplitPanePanel.setLayout(gbl_leftSplitPanePanel);
 		
 		JPanel groupResistorPanel = new JPanel();
 		groupResistorPanel.setBorder(new TitledBorder(null, "Widerst\u00E4nde", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		leftSplitPanePanel.add(groupResistorPanel);
-		groupResistorPanel.setLayout(new GridLayout(0, 3, 5, 5));
+		GridBagConstraints gbc_groupResistorPanel = new GridBagConstraints();
+		gbc_groupResistorPanel.weightx = 0.5;
+		gbc_groupResistorPanel.weighty = 0.5;
+		gbc_groupResistorPanel.insets = new Insets(0, 0, 5, 0);
+		gbc_groupResistorPanel.gridx = 0;
+		gbc_groupResistorPanel.gridy = 0;
+		leftSplitPanePanel.add(groupResistorPanel, gbc_groupResistorPanel);
+		GridBagLayout gbl_groupResistorPanel = new GridBagLayout();
+		gbl_groupResistorPanel.rowHeights = new int[] {26, 26, 26, 26, 26, 21};
+		gbl_groupResistorPanel.columnWidths = new int[] {180, 120, 40};
+		gbl_groupResistorPanel.columnWeights = new double[]{1.0, 1.0, 1.0};
+		gbl_groupResistorPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+		groupResistorPanel.setLayout(gbl_groupResistorPanel);
 		
 		JLabel lblStandardSeries = new JLabel("Normreihe:");
-		groupResistorPanel.add(lblStandardSeries);
+		GridBagConstraints gbc_lblStandardSeries = new GridBagConstraints();
+		gbc_lblStandardSeries.fill = GridBagConstraints.BOTH;
+		gbc_lblStandardSeries.insets = new Insets(0, 0, 5, 5);
+		gbc_lblStandardSeries.gridx = 0;
+		gbc_lblStandardSeries.gridy = 0;
+		groupResistorPanel.add(lblStandardSeries, gbc_lblStandardSeries);
 		
-		JComboBox comboBoxESeries = new JComboBox();
-		comboBoxESeries.setToolTipText("E-Reihe");
-		groupResistorPanel.add(comboBoxESeries);
+		cbESeries.setModel(new DefaultComboBoxModel(new String[] {"E3 (>\u00B120 %)", "E6 (\u00B120 %)", "E12 (\u00B110 %)", "E24 (\u00B15 %)", "E48 (\u00B12 %)", "E96 (\u00B11 %)", "E192 (\u00B10,5 %)"}));
+		cbESeries.setSelectedIndex(3);
+		cbESeries.setToolTipText("E-Reihe");
+		GridBagConstraints gbc_cbESeries = new GridBagConstraints();
+		gbc_cbESeries.fill = GridBagConstraints.BOTH;
+		gbc_cbESeries.insets = new Insets(0, 0, 5, 5);
+		gbc_cbESeries.gridx = 1;
+		gbc_cbESeries.gridy = 0;
+		groupResistorPanel.add(cbESeries, gbc_cbESeries);
 		
-		JPanel placeHolderPanel1 = new JPanel();
-		groupResistorPanel.add(placeHolderPanel1);
+		JLabel lblResistor1 = new JLabel("<html>Widerstand R<sub>1</sub>:</html>");
+		GridBagConstraints gbc_lblResistor1 = new GridBagConstraints();
+		gbc_lblResistor1.fill = GridBagConstraints.BOTH;
+		gbc_lblResistor1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblResistor1.gridx = 0;
+		gbc_lblResistor1.gridy = 1;
+		groupResistorPanel.add(lblResistor1, gbc_lblResistor1);
 		
-		JLabel lblResistor1 = new JLabel("Widerstand R1:");
-		groupResistorPanel.add(lblResistor1);
+		spnValueResistor1.setModel(new SpinnerNumberModel(new Double(0), new Double(0), null, new Double(1)));
+		GridBagConstraints gbc_spnValueResistor1 = new GridBagConstraints();
+		gbc_spnValueResistor1.fill = GridBagConstraints.BOTH;
+		gbc_spnValueResistor1.insets = new Insets(0, 0, 5, 5);
+		gbc_spnValueResistor1.gridx = 1;
+		gbc_spnValueResistor1.gridy = 1;
+		groupResistorPanel.add(spnValueResistor1, gbc_spnValueResistor1);
 		
-		JSpinner spinnerResistor1 = new JSpinner();
-		groupResistorPanel.add(spinnerResistor1);
+		cbUnitWithPrefixResistor1.setModel(new DefaultComboBoxModel(new String[] {"\u00B5\u03A9", "m\u03A9", "\u03A9", "k\u03A9", "M\u03A9"}));
+		cbUnitWithPrefixResistor1.setSelectedIndex(2);
+		GridBagConstraints gbc_cbUnitWithPrefixResistor1 = new GridBagConstraints();
+		gbc_cbUnitWithPrefixResistor1.fill = GridBagConstraints.BOTH;
+		gbc_cbUnitWithPrefixResistor1.insets = new Insets(0, 0, 5, 0);
+		gbc_cbUnitWithPrefixResistor1.gridx = 2;
+		gbc_cbUnitWithPrefixResistor1.gridy = 1;
+		groupResistorPanel.add(cbUnitWithPrefixResistor1, gbc_cbUnitWithPrefixResistor1);
 		
-		JComboBox comboBoxUnitWithPrefixResistor1 = new JComboBox();
-		groupResistorPanel.add(comboBoxUnitWithPrefixResistor1);
+		JLabel lblmindestwertR = new JLabel("<html>Mindestwert R<sub>1</sub>:</html>");
+		GridBagConstraints gbc_lblmindestwertR = new GridBagConstraints();
+		gbc_lblmindestwertR.fill = GridBagConstraints.BOTH;
+		gbc_lblmindestwertR.insets = new Insets(0, 0, 5, 5);
+		gbc_lblmindestwertR.gridx = 0;
+		gbc_lblmindestwertR.gridy = 2;
+		groupResistorPanel.add(lblmindestwertR, gbc_lblmindestwertR);
 		
-		JLabel lblResistor2 = new JLabel("Widerstand R2:");
-		groupResistorPanel.add(lblResistor2);
+		spnMinResistor1.setModel(new SpinnerNumberModel(new Double(0), new Double(0), null, new Double(1)));
+		GridBagConstraints gbc_spnMinResistor1 = new GridBagConstraints();
+		gbc_spnMinResistor1.fill = GridBagConstraints.BOTH;
+		gbc_spnMinResistor1.insets = new Insets(0, 0, 5, 5);
+		gbc_spnMinResistor1.gridx = 1;
+		gbc_spnMinResistor1.gridy = 2;
+		groupResistorPanel.add(spnMinResistor1, gbc_spnMinResistor1);
 		
-		JSpinner spinnerResistor2 = new JSpinner();
-		groupResistorPanel.add(spinnerResistor2);
+		cbUnitWithPrefixMinResistor1.setModel(new DefaultComboBoxModel(new String[] {"\u00B5\u03A9", "m\u03A9", "\u03A9", "k\u03A9", "M\u03A9"}));
+		cbUnitWithPrefixMinResistor1.setSelectedIndex(2);
+		GridBagConstraints gbc_cbUnitWithPrefixMinResistor1 = new GridBagConstraints();
+		gbc_cbUnitWithPrefixMinResistor1.insets = new Insets(0, 0, 5, 0);
+		gbc_cbUnitWithPrefixMinResistor1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cbUnitWithPrefixMinResistor1.gridx = 2;
+		gbc_cbUnitWithPrefixMinResistor1.gridy = 2;
+		groupResistorPanel.add(cbUnitWithPrefixMinResistor1, gbc_cbUnitWithPrefixMinResistor1);
 		
-		JComboBox comboBoxUnitWithPrefixResistor2 = new JComboBox();
-		groupResistorPanel.add(comboBoxUnitWithPrefixResistor2);
+		JLabel lblResistor2 = new JLabel("<html>Widerstand R<sub>2</sub>:</html>");
+		GridBagConstraints gbc_lblResistor2 = new GridBagConstraints();
+		gbc_lblResistor2.fill = GridBagConstraints.BOTH;
+		gbc_lblResistor2.insets = new Insets(0, 0, 5, 5);
+		gbc_lblResistor2.gridx = 0;
+		gbc_lblResistor2.gridy = 3;
+		groupResistorPanel.add(lblResistor2, gbc_lblResistor2);
 		
-		JLabel lblTotalResistor = new JLabel("Gesamtwiderstand:");
-		groupResistorPanel.add(lblTotalResistor);
+		spnValueResistor2.setModel(new SpinnerNumberModel(new Double(0), new Double(0), null, new Double(1)));
+		GridBagConstraints gbc_spnValueResistor2 = new GridBagConstraints();
+		gbc_spnValueResistor2.fill = GridBagConstraints.BOTH;
+		gbc_spnValueResistor2.insets = new Insets(0, 0, 5, 5);
+		gbc_spnValueResistor2.gridx = 1;
+		gbc_spnValueResistor2.gridy = 3;
+		groupResistorPanel.add(spnValueResistor2, gbc_spnValueResistor2);
 		
-		JSpinner spinnerTotalResistor = new JSpinner();
-		groupResistorPanel.add(spinnerTotalResistor);
+		cbUnitWithPrefixResistor2.setModel(new DefaultComboBoxModel(new String[] {"\u00B5\u03A9", "m\u03A9", "\u03A9", "k\u03A9", "M\u03A9"}));
+		cbUnitWithPrefixResistor2.setSelectedIndex(2);
+		GridBagConstraints gbc_cbUnitWithPrefixResistor2 = new GridBagConstraints();
+		gbc_cbUnitWithPrefixResistor2.fill = GridBagConstraints.BOTH;
+		gbc_cbUnitWithPrefixResistor2.insets = new Insets(0, 0, 5, 0);
+		gbc_cbUnitWithPrefixResistor2.gridx = 2;
+		gbc_cbUnitWithPrefixResistor2.gridy = 3;
+		groupResistorPanel.add(cbUnitWithPrefixResistor2, gbc_cbUnitWithPrefixResistor2);
 		
-		JComboBox comboBoxUnitWithPrefixTotalResistor = new JComboBox();
-		groupResistorPanel.add(comboBoxUnitWithPrefixTotalResistor);
+		JLabel lblmindestwertR_1 = new JLabel("<html>Mindestwert R<sub>2</sub>:</html>");
+		GridBagConstraints gbc_lblmindestwertR_1 = new GridBagConstraints();
+		gbc_lblmindestwertR_1.fill = GridBagConstraints.BOTH;
+		gbc_lblmindestwertR_1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblmindestwertR_1.gridx = 0;
+		gbc_lblmindestwertR_1.gridy = 4;
+		groupResistorPanel.add(lblmindestwertR_1, gbc_lblmindestwertR_1);
+		
+		spnMinResistor2.setModel(new SpinnerNumberModel(new Double(0), new Double(0), null, new Double(1)));
+		GridBagConstraints gbc_spnMinResistor2 = new GridBagConstraints();
+		gbc_spnMinResistor2.fill = GridBagConstraints.BOTH;
+		gbc_spnMinResistor2.insets = new Insets(0, 0, 5, 5);
+		gbc_spnMinResistor2.gridx = 1;
+		gbc_spnMinResistor2.gridy = 4;
+		groupResistorPanel.add(spnMinResistor2, gbc_spnMinResistor2);
+		
+		cbUnitWithPrefixMinResistor2.setModel(new DefaultComboBoxModel(new String[] {"\u00B5\u03A9", "m\u03A9", "\u03A9", "k\u03A9", "M\u03A9"}));
+		cbUnitWithPrefixMinResistor2.setSelectedIndex(2);
+		GridBagConstraints gbc_cbUnitWithPrefixMinResistor2 = new GridBagConstraints();
+		gbc_cbUnitWithPrefixMinResistor2.insets = new Insets(0, 0, 5, 0);
+		gbc_cbUnitWithPrefixMinResistor2.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cbUnitWithPrefixMinResistor2.gridx = 2;
+		gbc_cbUnitWithPrefixMinResistor2.gridy = 4;
+		groupResistorPanel.add(cbUnitWithPrefixMinResistor2, gbc_cbUnitWithPrefixMinResistor2);
+		
+		JLabel lblTotalResistor = new JLabel("<html>Gesamtwiderstand (R<sub>1</sub> + R<sub>2</sub>):</html>");
+		GridBagConstraints gbc_lblTotalResistor = new GridBagConstraints();
+		gbc_lblTotalResistor.fill = GridBagConstraints.BOTH;
+		gbc_lblTotalResistor.insets = new Insets(0, 0, 5, 5);
+		gbc_lblTotalResistor.gridx = 0;
+		gbc_lblTotalResistor.gridy = 5;
+		groupResistorPanel.add(lblTotalResistor, gbc_lblTotalResistor);
+		
+		spnValueTotalResistor.setModel(new SpinnerNumberModel(new Double(0), new Double(0), null, new Double(1)));
+		GridBagConstraints gbc_spnValueTotalResistor = new GridBagConstraints();
+		gbc_spnValueTotalResistor.fill = GridBagConstraints.BOTH;
+		gbc_spnValueTotalResistor.insets = new Insets(0, 0, 5, 5);
+		gbc_spnValueTotalResistor.gridx = 1;
+		gbc_spnValueTotalResistor.gridy = 5;
+		groupResistorPanel.add(spnValueTotalResistor, gbc_spnValueTotalResistor);
+		
+		cbUnitWithPrefixTotalResistor.setModel(new DefaultComboBoxModel(new String[] {"\u00B5\u03A9", "m\u03A9", "\u03A9", "k\u03A9", "M\u03A9"}));
+		cbUnitWithPrefixTotalResistor.setSelectedIndex(2);
+		GridBagConstraints gbc_cbUnitWithPrefixTotalResistor = new GridBagConstraints();
+		gbc_cbUnitWithPrefixTotalResistor.insets = new Insets(0, 0, 5, 0);
+		gbc_cbUnitWithPrefixTotalResistor.fill = GridBagConstraints.BOTH;
+		gbc_cbUnitWithPrefixTotalResistor.gridx = 2;
+		gbc_cbUnitWithPrefixTotalResistor.gridy = 5;
+		groupResistorPanel.add(cbUnitWithPrefixTotalResistor, gbc_cbUnitWithPrefixTotalResistor);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Spannungen", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+		gbc_panel_1.weightx = 0.5;
+		gbc_panel_1.weighty = 0.5;
+		gbc_panel_1.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_1.gridx = 0;
+		gbc_panel_1.gridy = 1;
+		leftSplitPanePanel.add(panel_1, gbc_panel_1);
+		GridBagLayout gbl_panel_1 = new GridBagLayout();
+		gbl_panel_1.rowHeights = new int[] {26, 26, 21};
+		gbl_panel_1.columnWidths = new int[] {180, 120, 40};
+		gbl_panel_1.columnWeights = new double[]{0.0, 0.0, 0.0};
+		gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0};
+		panel_1.setLayout(gbl_panel_1);
+		
+		JLabel lblfmax = new JLabel("<html>Spannung U<sub>1</sub>:</html>");
+		GridBagConstraints gbc_lblfmax = new GridBagConstraints();
+		gbc_lblfmax.fill = GridBagConstraints.BOTH;
+		gbc_lblfmax.insets = new Insets(0, 0, 5, 5);
+		gbc_lblfmax.gridx = 0;
+		gbc_lblfmax.gridy = 0;
+		panel_1.add(lblfmax, gbc_lblfmax);
+		
+		spnValueVoltage1.setModel(new SpinnerNumberModel(new Double(0), new Double(0), null, new Double(1)));
+		GridBagConstraints gbc_spnValueVoltage1 = new GridBagConstraints();
+		gbc_spnValueVoltage1.fill = GridBagConstraints.BOTH;
+		gbc_spnValueVoltage1.insets = new Insets(0, 0, 5, 5);
+		gbc_spnValueVoltage1.gridx = 1;
+		gbc_spnValueVoltage1.gridy = 0;
+		panel_1.add(spnValueVoltage1, gbc_spnValueVoltage1);
+		
+		cbUnitWithPrefixVoltage1.setModel(new DefaultComboBoxModel(new String[] {"\u00B5V", "mV", "V", "kV", "MV"}));
+		cbUnitWithPrefixVoltage1.setSelectedIndex(2);
+		GridBagConstraints gbc_cbUnitWithPrefixVoltage1 = new GridBagConstraints();
+		gbc_cbUnitWithPrefixVoltage1.fill = GridBagConstraints.BOTH;
+		gbc_cbUnitWithPrefixVoltage1.insets = new Insets(0, 0, 5, 0);
+		gbc_cbUnitWithPrefixVoltage1.gridx = 2;
+		gbc_cbUnitWithPrefixVoltage1.gridy = 0;
+		panel_1.add(cbUnitWithPrefixVoltage1, gbc_cbUnitWithPrefixVoltage1);
+		
+		JLabel lblspannungU = new JLabel("<html>Spannung U<sub>2</sub>:</html>");
+		GridBagConstraints gbc_lblspannungU = new GridBagConstraints();
+		gbc_lblspannungU.fill = GridBagConstraints.BOTH;
+		gbc_lblspannungU.insets = new Insets(0, 0, 5, 5);
+		gbc_lblspannungU.gridx = 0;
+		gbc_lblspannungU.gridy = 1;
+		panel_1.add(lblspannungU, gbc_lblspannungU);
+		
+		spnValueVoltage2.setModel(new SpinnerNumberModel(new Double(0), new Double(0), null, new Double(1)));
+		GridBagConstraints gbc_spnValueVoltage2 = new GridBagConstraints();
+		gbc_spnValueVoltage2.fill = GridBagConstraints.BOTH;
+		gbc_spnValueVoltage2.insets = new Insets(0, 0, 5, 5);
+		gbc_spnValueVoltage2.gridx = 1;
+		gbc_spnValueVoltage2.gridy = 1;
+		panel_1.add(spnValueVoltage2, gbc_spnValueVoltage2);
+		
+		cbUnitWithPrefixVoltage2.setModel(new DefaultComboBoxModel(new String[] {"\u00B5V", "mV", "V", "kV", "MV"}));
+		cbUnitWithPrefixVoltage2.setSelectedIndex(2);
+		GridBagConstraints gbc_cbUnitWithPrefixVoltage2 = new GridBagConstraints();
+		gbc_cbUnitWithPrefixVoltage2.fill = GridBagConstraints.BOTH;
+		gbc_cbUnitWithPrefixVoltage2.insets = new Insets(0, 0, 5, 0);
+		gbc_cbUnitWithPrefixVoltage2.gridx = 2;
+		gbc_cbUnitWithPrefixVoltage2.gridy = 1;
+		panel_1.add(cbUnitWithPrefixVoltage2, gbc_cbUnitWithPrefixVoltage2);
+		
+		JLabel lblGesamtspannungU = new JLabel("Gesamtspannung U:");
+		GridBagConstraints gbc_lblGesamtspannungU = new GridBagConstraints();
+		gbc_lblGesamtspannungU.fill = GridBagConstraints.BOTH;
+		gbc_lblGesamtspannungU.insets = new Insets(0, 0, 0, 5);
+		gbc_lblGesamtspannungU.gridx = 0;
+		gbc_lblGesamtspannungU.gridy = 2;
+		panel_1.add(lblGesamtspannungU, gbc_lblGesamtspannungU);
+		
+		spnValueTotalVoltage.setModel(new SpinnerNumberModel(new Double(0), new Double(0), null, new Double(1)));
+		GridBagConstraints gbc_spnValueTotalVoltage = new GridBagConstraints();
+		gbc_spnValueTotalVoltage.fill = GridBagConstraints.BOTH;
+		gbc_spnValueTotalVoltage.insets = new Insets(0, 0, 0, 5);
+		gbc_spnValueTotalVoltage.gridx = 1;
+		gbc_spnValueTotalVoltage.gridy = 2;
+		panel_1.add(spnValueTotalVoltage, gbc_spnValueTotalVoltage);
+		
+		cbUnitWithPrefixTotalVoltage.setModel(new DefaultComboBoxModel(new String[] {"\u00B5V", "mV", "V", "kV", "MV"}));
+		cbUnitWithPrefixTotalVoltage.setSelectedIndex(2);
+		GridBagConstraints gbc_cbUnitWithPrefixTotalVoltage = new GridBagConstraints();
+		gbc_cbUnitWithPrefixTotalVoltage.fill = GridBagConstraints.BOTH;
+		gbc_cbUnitWithPrefixTotalVoltage.gridx = 2;
+		gbc_cbUnitWithPrefixTotalVoltage.gridy = 2;
+		panel_1.add(cbUnitWithPrefixTotalVoltage, gbc_cbUnitWithPrefixTotalVoltage);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Verh\u00E4ltnis", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
+		gbc_panel_2.weightx = 0.5;
+		gbc_panel_2.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_2.weighty = 0.5;
+		gbc_panel_2.gridx = 0;
+		gbc_panel_2.gridy = 2;
+		leftSplitPanePanel.add(panel_2, gbc_panel_2);
+		GridBagLayout gbl_panel_2 = new GridBagLayout();
+		gbl_panel_2.columnWidths = new int[] {180, 120, 40};
+		gbl_panel_2.rowHeights = new int[] {26, 26, 26, 21};
+		gbl_panel_2.columnWeights = new double[]{1.0, 1.0, 1.0};
+		gbl_panel_2.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
+		panel_2.setLayout(gbl_panel_2);
+		
+		JRadioButton rbRatio = new JRadioButton("Verh\u00E4ltnis:");
+		rbRatio.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				spnRatioA.setEnabled(rbRatio.isSelected());
+				spnRatioB.setEnabled(rbRatio.isSelected());
+			}
+		});
+		buttonGroup.add(rbRatio);
+		rbRatio.setSelected(true);
+		GridBagConstraints gbc_rbRatio = new GridBagConstraints();
+		gbc_rbRatio.fill = GridBagConstraints.BOTH;
+		gbc_rbRatio.insets = new Insets(0, 0, 5, 5);
+		gbc_rbRatio.gridx = 0;
+		gbc_rbRatio.gridy = 0;
+		panel_2.add(rbRatio, gbc_rbRatio);
+		
+		JPanel panel_3 = new JPanel();
+		GridBagConstraints gbc_panel_3 = new GridBagConstraints();
+		gbc_panel_3.fill = GridBagConstraints.BOTH;
+		gbc_panel_3.gridwidth = 2;
+		gbc_panel_3.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_3.gridx = 1;
+		gbc_panel_3.gridy = 0;
+		panel_2.add(panel_3, gbc_panel_3);
+		GridBagLayout gbl_panel_3 = new GridBagLayout();
+		gbl_panel_3.columnWidths = new int[]{0, 0, 0, 0};
+		gbl_panel_3.rowHeights = new int[]{26, 0};
+		gbl_panel_3.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_3.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		panel_3.setLayout(gbl_panel_3);
+		
+		spnRatioA.setModel(new SpinnerNumberModel(new Double(0), new Double(0), null, new Double(1)));
+		GridBagConstraints gbc_spnRatioA = new GridBagConstraints();
+		gbc_spnRatioA.weightx = 0.5;
+		gbc_spnRatioA.fill = GridBagConstraints.BOTH;
+		gbc_spnRatioA.insets = new Insets(0, 0, 0, 5);
+		gbc_spnRatioA.gridx = 0;
+		gbc_spnRatioA.gridy = 0;
+		panel_3.add(spnRatioA, gbc_spnRatioA);
+		
+		JLabel lblRatio = new JLabel(":");
+		GridBagConstraints gbc_lblRatio = new GridBagConstraints();
+		gbc_lblRatio.fill = GridBagConstraints.VERTICAL;
+		gbc_lblRatio.insets = new Insets(0, 0, 0, 5);
+		gbc_lblRatio.gridx = 1;
+		gbc_lblRatio.gridy = 0;
+		panel_3.add(lblRatio, gbc_lblRatio);
+		
+		spnRatioB.setModel(new SpinnerNumberModel(new Double(0), new Double(0), null, new Double(1)));
+		GridBagConstraints gbc_spnRatioB = new GridBagConstraints();
+		gbc_spnRatioB.weightx = 0.5;
+		gbc_spnRatioB.fill = GridBagConstraints.BOTH;
+		gbc_spnRatioB.gridx = 2;
+		gbc_spnRatioB.gridy = 0;
+		panel_3.add(spnRatioB, gbc_spnRatioB);
+		
+		JRadioButton rbFactor = new JRadioButton("Faktor:");
+		rbFactor.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				spnFactor.setEnabled(rbFactor.isSelected());
+			}
+		});
+		buttonGroup.add(rbFactor);
+		GridBagConstraints gbc_rbFactor = new GridBagConstraints();
+		gbc_rbFactor.fill = GridBagConstraints.BOTH;
+		gbc_rbFactor.insets = new Insets(0, 0, 5, 5);
+		gbc_rbFactor.gridx = 0;
+		gbc_rbFactor.gridy = 1;
+		panel_2.add(rbFactor, gbc_rbFactor);
+		spnFactor.setEnabled(false);
+		
+		spnFactor.setModel(new SpinnerNumberModel(new Double(0), new Double(0), null, new Double(1)));
+		GridBagConstraints gbc_spnFactor = new GridBagConstraints();
+		gbc_spnFactor.fill = GridBagConstraints.BOTH;
+		gbc_spnFactor.gridwidth = 2;
+		gbc_spnFactor.insets = new Insets(0, 0, 5, 0);
+		gbc_spnFactor.gridx = 1;
+		gbc_spnFactor.gridy = 1;
+		panel_2.add(spnFactor, gbc_spnFactor);
+		
+		JLabel lblRatioReference = new JLabel("Verh\u00E4ltnisbezug:");
+		GridBagConstraints gbc_lblRatioReference = new GridBagConstraints();
+		gbc_lblRatioReference.fill = GridBagConstraints.BOTH;
+		gbc_lblRatioReference.insets = new Insets(0, 0, 5, 5);
+		gbc_lblRatioReference.gridx = 0;
+		gbc_lblRatioReference.gridy = 2;
+		panel_2.add(lblRatioReference, gbc_lblRatioReference);
+		
+		JRadioButton rbRatioReference12 = new JRadioButton("<html>R<sub>1</sub> zu R<sub>2</sub></html>");
+		rbRatioReference12.setSelected(true);
+		buttonGroup_1.add(rbRatioReference12);
+		GridBagConstraints gbc_rbRatioReference12 = new GridBagConstraints();
+		gbc_rbRatioReference12.fill = GridBagConstraints.BOTH;
+		gbc_rbRatioReference12.insets = new Insets(0, 0, 5, 5);
+		gbc_rbRatioReference12.gridx = 1;
+		gbc_rbRatioReference12.gridy = 2;
+		panel_2.add(rbRatioReference12, gbc_rbRatioReference12);
+		
+		JRadioButton rbRatioReference21 = new JRadioButton("<html>R<sub>2</sub> zu R<sub>1</sub></html>");
+		buttonGroup_1.add(rbRatioReference21);
+		GridBagConstraints gbc_rbRatioReference21 = new GridBagConstraints();
+		gbc_rbRatioReference21.fill = GridBagConstraints.BOTH;
+		gbc_rbRatioReference21.insets = new Insets(0, 0, 0, 5);
+		gbc_rbRatioReference21.gridx = 1;
+		gbc_rbRatioReference21.gridy = 3;
+		panel_2.add(rbRatioReference21, gbc_rbRatioReference21);
 		
 		JPanel rightSplitPanePanel = new JPanel();
 		splitPane.setRightComponent(rightSplitPanePanel);
 		rightSplitPanePanel.setLayout(new BorderLayout(0, 0));
 		
+		JPanel panel_4 = new JPanel();
+		panel_4.setBorder(new EmptyBorder(10, 10, 10, 10));
+		rightSplitPanePanel.add(panel_4, BorderLayout.CENTER);
+		panel_4.setLayout(new BorderLayout(0, 0));
+		
 		JSVGCanvas svgCanvas = new JSVGCanvas();
+		svgCanvas.setEnableImageZoomInteractor(false);
+		panel_4.add(svgCanvas);
+		svgCanvas.setToolTipText("Patrick-Emil Z\u00F6rner (Paddy)\r\nhttps://commons.wikimedia.org/wiki/File:Spannungsteiler.svg");
 		svgCanvas.setRecenterOnResize(false);
 		svgCanvas.setBackground(new Color(240, 240, 240));
 		svgCanvas.setURI("file:src/res/Spannungsteiler.svg");
-		rightSplitPanePanel.add(svgCanvas, BorderLayout.CENTER);
 		
 		JPanel buttonPanelWithSeperator = new JPanel();
 		rightSplitPanePanel.add(buttonPanelWithSeperator, BorderLayout.SOUTH);
@@ -158,9 +527,19 @@ public class Covfefe extends JFrame {
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JButton btnReset = new JButton("Zur\u00FCcksetzen");
+		btnReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				reset(); //Neue Berechnung vorbereiten
+			}
+		});
 		panel.add(btnReset);
 		
 		JButton btnCalculate = new JButton("Berechnen");
+		btnCalculate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				calculate(); //Berechnung durchführen
+			}
+		});
 		panel.add(btnCalculate);
 		
 		reset(); //Neue Berechnung vorbereiten
@@ -175,13 +554,12 @@ public class Covfefe extends JFrame {
 	}
 	
 	/**
-	 * Alle Eingaben zurücksetzen und Benutzersteuerelemente initialisieren
+	 * Alle Eingaben zurücksetzen
 	 */
 	public void reset() {
-		voltageDivider = new VoltageDivider();
-		
-		//Eingabe-Benutzersteuerelemente zurücksetzen
-		//### Todo
+		voltageDivider = new VoltageDivider(); //Neue Berechnung starten
+		//### Demo
+		//refreshValues(); //Werte in GUI übernehmen
 	}
 	
 	/**
@@ -192,18 +570,49 @@ public class Covfefe extends JFrame {
 		InputParameter parameter = new InputParameter();
 		//### Todo
 		
+		//### Demo
+		refreshValues();
+		SystemSounds.play(SystemSounds.Sound.Asterisk);
+		
+		/*
 		if(voltageDivider.isValidInput(parameter)) {
 			//Eingaben übernehmen
 			//### Todo: Werte aus GUI einlesen
 			
 			voltageDivider.calculateValues(); //Berechnung durchführen
-			
-			//Ergebnis ausgeben
-			//### Todo: Werte in GUI übernehmen
+			refreshValues(); //Werte in GUI übernehmen
+			SystemSounds.play(SystemSounds.Sound.Asterisk); //Sound abspielen
 		}
 		else {
 			//Ungültige Eingabe anzeigen
-			//### Todo: Benachrichtigung ausgeben, Anzeige auf GUI
+			SystemSounds.play(SystemSounds.Sound.Hand);
+			JOptionPane.showMessageDialog(null, "Die Eingabe ist ungültig.", "Covfefe: Fehler", JOptionPane.ERROR_MESSAGE); //Fehlermeldung
+			//### Todo: Anzeige auf GUI
 		}
+		*/
+	}
+	
+	private void refreshValues() {
+		//### Todo: Werte abfragen
+		cbESeries.setSelectedIndex(4);
+		spnValueResistor1.setValue(14);
+		cbUnitWithPrefixResistor1.setSelectedIndex(3);
+		spnMinResistor1.setValue(0);
+		cbUnitWithPrefixMinResistor1.setSelectedIndex(2);
+		spnValueResistor2.setValue(10);
+		cbUnitWithPrefixResistor2.setSelectedIndex(3);
+		spnMinResistor2.setValue(10);
+		cbUnitWithPrefixMinResistor2.setSelectedIndex(3);
+		spnValueTotalResistor.setValue(24);
+		cbUnitWithPrefixTotalResistor.setSelectedIndex(3);
+		spnValueVoltage1.setValue(7);
+		cbUnitWithPrefixVoltage1.setSelectedIndex(2);
+		spnValueVoltage2.setValue(5);
+		cbUnitWithPrefixVoltage2.setSelectedIndex(2);
+		spnValueTotalVoltage.setValue(12);
+		cbUnitWithPrefixTotalVoltage.setSelectedIndex(2);
+		spnRatioA.setValue(1.4);
+		spnRatioB.setValue(1);
+		spnFactor.setValue(1.4);
 	}
 }
