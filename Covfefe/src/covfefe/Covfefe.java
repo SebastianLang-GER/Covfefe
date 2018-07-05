@@ -25,8 +25,13 @@
 *   SONSTIGER VERWENDUNG DER SOFTWARE ENTSTANDEN.                                                    *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-//Notwendige Debugging-Konfiguration: VM arguments: -splash:src/res/Covfefe.png
-//Notwendige Manifest-Ergänzung in JAR-Datei: SplashScreen-Image: res/Covfefe.png
+/* Notwendige Debugging-Konfigurationen:
+ * - Program arguments: debugging
+ * - VM arguments: -splash:src/res/Covfefe.png
+ * Notwendige Kompilier-Konfigurationen:
+ * - Program arguments: keine
+ * - Manifest-Ergänzung in JAR-Datei: SplashScreen-Image: res/Covfefe.png
+ */
 
 package covfefe;
 
@@ -47,6 +52,7 @@ import javax.swing.event.ChangeEvent;
 @SuppressWarnings("serial")
 public class Covfefe extends JFrame {
 	private static final int delay = 3000; //Wartezeit in ms während des Startbildschirms
+	private static boolean debugging = false; //Debugging-Modus
 	private VoltageDivider voltageDivider;
 	
 	//GUI-Komponenten
@@ -513,7 +519,7 @@ public class Covfefe extends JFrame {
 		svgCanvas.setToolTipText("Patrick-Emil Z\u00F6rner (Paddy)\r\nhttps://commons.wikimedia.org/wiki/File:Spannungsteiler.svg");
 		svgCanvas.setRecenterOnResize(false);
 		svgCanvas.setBackground(new Color(240, 240, 240));
-		svgCanvas.setURI("file:src/res/Spannungsteiler.svg");
+		svgCanvas.setURI("file:" + (debugging ? "src/" : "") + "res/Spannungsteiler.svg");
 		
 		JPanel buttonPanelWithSeperator = new JPanel();
 		rightSplitPanePanel.add(buttonPanelWithSeperator, BorderLayout.SOUTH);
@@ -550,6 +556,13 @@ public class Covfefe extends JFrame {
 	 * @param args Programmparameter
 	 */
 	public static void main(String[] args) {
+		//Kommandozeilenparameter auswerten
+		for (int i = 0; i < args.length; i++) {
+			if (args[i].equalsIgnoreCase("debugging")) {
+				debugging = true;
+				System.out.println("Debugging-Modus aktiviert");
+			}
+	      } 
 		new Covfefe(); //Hauptfenster initialisieren
 	}
 	
