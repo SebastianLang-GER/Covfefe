@@ -73,4 +73,12 @@ public class UnitPrefix {
 		}
 		return ""; //nichts
 	}
+	
+	/**
+	 * Rückgabe aller Attribute und Eigenschaften der Klasse als Zeichenkette
+	 * @return Attribute und Eigenschaften der Klasse
+	 */
+	public String toString() {
+		return "10^" + getPower() + " = " + getPrefix();
+	}
 }
