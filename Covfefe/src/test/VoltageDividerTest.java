@@ -122,6 +122,22 @@ public class VoltageDividerTest {
 		System.out.println(var);
 		System.out.println(varr);
 
+		//Test der Methode calculate Values, da mit den InputParameters gesichert ist das nur richtige Eingaben berechnet werden, werden nur diese überprüft
+		
+		VoltageDivider VD = new VoltageDivider();
+		InputParameter IP = new InputParameter();
+		Voltage voltage = new Voltage();
+		voltage.setValue(10.1);
+		
+		//1.: Ratio, 1 Voltage und kein Resistor gegeben
+		VD.setRatioResistor1toResistor2(5);
+		IP.setRatio(true);
+		VD.setVoltage(0, voltage);
+		IP.setVoltage1(true);
+		VD.isValidInput(IP);
+		VD.calculateValues();
+		System.out.println(VD.getCalculationCompleted());
+		
 	}
 
 	public static void binaerDarstellenVonBits (int zahl) {
