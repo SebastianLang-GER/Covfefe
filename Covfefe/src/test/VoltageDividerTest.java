@@ -920,8 +920,7 @@ public class VoltageDividerTest {
 				IP.setResistor1(false);
 	}
 
-	public static void binaerDarstellenVonBits (int zahl) {
-		  
+	private static void binaerDarstellenVonBits (int zahl) {		  
 		  int maske = 0b000000001;
 		  char[] bitfolge = new char[9];
 
@@ -930,11 +929,10 @@ public class VoltageDividerTest {
 		   bitfolge[8 - i] = (zahl & maske) == 0 ? '0' : '1';
 		   maske = (int) (maske << 1);
 		  }
-
 		  System.out.println(bitfolge);
 		 }	
 	
-	public static void überprüfen (VoltageDivider VD, InputParameter IP){	
+	private static void überprüfen (VoltageDivider VD, InputParameter IP){	
 		VD.isValidInput(IP);
 		VD.calculateValues();
 		if(roundToDecimals(VD.getRatioResistor1toResistor2(),2) != 5) System.out.println("Fehler 1");
@@ -943,6 +941,7 @@ public class VoltageDividerTest {
 		if(roundToDecimals(VD.getVoltage(0).getValue(),2) != 10.1) System.out.println("Fehler 4");
 		if(roundToDecimals(VD.getVoltage(1).getValue(),2) != 2.02) System.out.println("Fehler 5");		
 	}
+	
 	private static double roundToDecimals(double number, int decimal) {
 		return (int)(number * Math.pow(10, decimal) + 0.5) / (double)Math.pow(10, decimal);  
 	}
