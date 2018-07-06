@@ -43,6 +43,22 @@ public class VoltageDivider {
 	}
 	
 	/**
+	 * Rückgabe der E-Reihe
+	 * @return E-Reihe
+	 */
+	public ESeriesTemplate getESeries() {
+		return eSeries;
+	}
+	
+	/**
+	 * Festelegen der E-Reihe
+	 * @param eSeries E-Reihe
+	 */
+	public void setESeries(ESeriesTemplate eSeries) {
+		this.eSeries = eSeries;
+	}
+	
+	/**
 	 * Rückgabe, ob die eingegebenen Parameter geprüft wurden
 	 * @return Eingegebene Parameter geprüft
 	 */
