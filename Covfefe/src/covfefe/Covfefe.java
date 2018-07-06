@@ -153,10 +153,15 @@ public class Covfefe extends JFrame {
 		gbc_lblStandardSeries.gridx = 0;
 		gbc_lblStandardSeries.gridy = 0;
 		groupResistorPanel.add(lblStandardSeries, gbc_lblStandardSeries);
-		
 		cbESeries.setModel(new DefaultComboBoxModel(new String[] {"E3 (>\u00B120 %)", "E6 (\u00B120 %)", "E12 (\u00B110 %)", "E24 (\u00B15 %)", "E48 (\u00B12 %)", "E96 (\u00B11 %)", "E192 (\u00B10,5 %)"}));
 		cbESeries.setSelectedIndex(3);
 		cbESeries.setToolTipText("E-Reihe");
+		cbESeries.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				
+			}
+		});
+
 		GridBagConstraints gbc_cbESeries = new GridBagConstraints();
 		gbc_cbESeries.fill = GridBagConstraints.BOTH;
 		gbc_cbESeries.insets = new Insets(0, 0, 5, 5);
@@ -171,6 +176,15 @@ public class Covfefe extends JFrame {
 		gbc_lblResistor1.gridx = 0;
 		gbc_lblResistor1.gridy = 1;
 		groupResistorPanel.add(lblResistor1, gbc_lblResistor1);
+		spnValueResistor1.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				Resistance value = new Resistance();
+				value.setValue((double) spnValueResistor1.getValue());
+				Resistor r = voltageDivider.getResistor(0);
+				r.chooseResistor(value);
+				voltageDivider.setResistor(0, r);
+			}
+		});
 		
 		spnValueResistor1.setModel(new SpinnerNumberModel(new Double(0), new Double(0), null, new Double(1)));
 		GridBagConstraints gbc_spnValueResistor1 = new GridBagConstraints();
@@ -196,6 +210,13 @@ public class Covfefe extends JFrame {
 		gbc_lblmindestwertR.gridx = 0;
 		gbc_lblmindestwertR.gridy = 2;
 		groupResistorPanel.add(lblmindestwertR, gbc_lblmindestwertR);
+		spnMinResistor1.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				Resistance value = new Resistance();
+				value.setValue((double) spnMinResistor1.getValue());
+				voltageDivider.setMinResistor(0, value);
+			}
+		});
 		
 		spnMinResistor1.setModel(new SpinnerNumberModel(new Double(0), new Double(0), null, new Double(1)));
 		GridBagConstraints gbc_spnMinResistor1 = new GridBagConstraints();
@@ -221,6 +242,15 @@ public class Covfefe extends JFrame {
 		gbc_lblResistor2.gridx = 0;
 		gbc_lblResistor2.gridy = 3;
 		groupResistorPanel.add(lblResistor2, gbc_lblResistor2);
+		spnValueResistor2.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				Resistance value = new Resistance();
+				value.setValue((double) spnValueResistor2.getValue());
+				Resistor r = voltageDivider.getResistor(1);
+				r.chooseResistor(value);
+				voltageDivider.setResistor(1, r);
+			}
+		});
 		
 		spnValueResistor2.setModel(new SpinnerNumberModel(new Double(0), new Double(0), null, new Double(1)));
 		GridBagConstraints gbc_spnValueResistor2 = new GridBagConstraints();
@@ -246,6 +276,13 @@ public class Covfefe extends JFrame {
 		gbc_lblmindestwertR_1.gridx = 0;
 		gbc_lblmindestwertR_1.gridy = 4;
 		groupResistorPanel.add(lblmindestwertR_1, gbc_lblmindestwertR_1);
+		spnMinResistor2.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				Resistance value = new Resistance();
+				value.setValue((double) spnMinResistor2.getValue());
+				voltageDivider.setMinResistor(1, value);
+			}
+		});
 		
 		spnMinResistor2.setModel(new SpinnerNumberModel(new Double(0), new Double(0), null, new Double(1)));
 		GridBagConstraints gbc_spnMinResistor2 = new GridBagConstraints();
@@ -271,6 +308,13 @@ public class Covfefe extends JFrame {
 		gbc_lblTotalResistor.gridx = 0;
 		gbc_lblTotalResistor.gridy = 5;
 		groupResistorPanel.add(lblTotalResistor, gbc_lblTotalResistor);
+		spnValueTotalResistor.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				Resistance value = new Resistance();
+				value.setValue((double) spnValueTotalResistor.getValue());
+				voltageDivider.setTotalResistor(value);;
+			}
+		});
 		
 		spnValueTotalResistor.setModel(new SpinnerNumberModel(new Double(0), new Double(0), null, new Double(1)));
 		GridBagConstraints gbc_spnValueTotalResistor = new GridBagConstraints();
@@ -312,6 +356,13 @@ public class Covfefe extends JFrame {
 		gbc_lblfmax.gridx = 0;
 		gbc_lblfmax.gridy = 0;
 		panel_1.add(lblfmax, gbc_lblfmax);
+		spnValueVoltage1.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				Voltage value = new Voltage();
+				value.setValue((double) spnValueVoltage1.getValue());
+				voltageDivider.setVoltage(0, value);
+			}
+		});
 		
 		spnValueVoltage1.setModel(new SpinnerNumberModel(new Double(0), new Double(0), null, new Double(1)));
 		GridBagConstraints gbc_spnValueVoltage1 = new GridBagConstraints();
@@ -337,6 +388,13 @@ public class Covfefe extends JFrame {
 		gbc_lblspannungU.gridx = 0;
 		gbc_lblspannungU.gridy = 1;
 		panel_1.add(lblspannungU, gbc_lblspannungU);
+		spnValueVoltage2.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				Voltage value = new Voltage();
+				value.setValue((double) spnValueVoltage2.getValue());
+				voltageDivider.setVoltage(1, value);
+			}
+		});
 		
 		spnValueVoltage2.setModel(new SpinnerNumberModel(new Double(0), new Double(0), null, new Double(1)));
 		GridBagConstraints gbc_spnValueVoltage2 = new GridBagConstraints();
@@ -362,6 +420,13 @@ public class Covfefe extends JFrame {
 		gbc_lblGesamtspannungU.gridx = 0;
 		gbc_lblGesamtspannungU.gridy = 2;
 		panel_1.add(lblGesamtspannungU, gbc_lblGesamtspannungU);
+		spnValueTotalVoltage.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				Voltage value = new Voltage();
+				value.setValue((double) spnValueTotalVoltage.getValue());
+				voltageDivider.setTotalVoltage(value);
+			}
+		});
 		
 		spnValueTotalVoltage.setModel(new SpinnerNumberModel(new Double(0), new Double(0), null, new Double(1)));
 		GridBagConstraints gbc_spnValueTotalVoltage = new GridBagConstraints();
