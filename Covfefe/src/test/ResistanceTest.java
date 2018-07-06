@@ -2,6 +2,9 @@ package test;
 
 import covfefe.Resistance;
 
+/* Notwendige Debugging-Konfigurationen:
+ * - Common -> Encoding -> Other: UTF-8
+ */
 
 public class ResistanceTest {
 	public static void main(String[] args) {
