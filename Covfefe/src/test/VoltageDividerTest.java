@@ -6,7 +6,7 @@ public class VoltageDividerTest {
 
 	public static void main(String[] args) {
 		
-		VoltageDivider test = new VoltageDivider();
+/*		VoltageDivider test = new VoltageDivider();
 		InputParameter parameters = new InputParameter();
 		int Wert = 0b000000000;
 		int WertA = 0b0000000000;
@@ -120,7 +120,7 @@ public class VoltageDividerTest {
 			
 		}
 		System.out.println(var);
-		System.out.println(varr);
+		System.out.println(varr);*/
 
 		//Test der Methode calculate Values, da mit den InputParameters gesichert ist das nur richtige Eingaben berechnet werden, werden nur diese überprüft
 		
@@ -134,9 +134,12 @@ public class VoltageDividerTest {
 		IP.setRatio(true);
 		VD.setVoltage(0, voltage);
 		IP.setVoltage1(true);
+		VD.setTotalResistor(new Resistance());
+		System.out.println(VD.toString());
 		VD.isValidInput(IP);
 		VD.calculateValues();
 		System.out.println(VD.getCalculationCompleted());
+		System.out.println(VD.toString());
 		
 	}
 
