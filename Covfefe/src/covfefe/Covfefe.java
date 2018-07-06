@@ -26,18 +26,16 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /* Notwendige Debugging-Konfigurationen:
- * - Program arguments: debugging
- * - VM arguments: -splash:src/res/Covfefe.png
+ * - Run-Configuration -> Arguments -> Program arguments: debugging
+ * - Run-Configuration -> Arguments -> VM arguments: -splash:src/res/Covfefe.png
  * Notwendige Kompilier-Konfigurationen:
- * - Program arguments: keine
+ * - Run-Configuration -> Arguments -> Program arguments: keine
  * - Manifest-Ergänzung in JAR-Datei: SplashScreen-Image: res/Covfefe.png
  */
 
 package covfefe;
 
 import java.awt.*;
-import java.io.*;
-import java.net.*;
 import java.awt.event.*;
 import javax.swing.event.*;
 import javax.swing.*;

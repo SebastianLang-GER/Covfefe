@@ -43,7 +43,7 @@ public class ESeriesTemplate {
 	* @return Toleranz der E-Reihe
 	*/
 	public String getToleranceAsString() {
-		return "±" + String.format(getTolerance() < 1 ? "%.1f" : "%.0f", tolerance) + " %";
+		return (getItems() <= 3 ? "> " : "") + "±" + String.format(getTolerance() < 1 ? "%.1f" : "%.0f", tolerance) + " %";
 	}
 	
 	/**
@@ -113,6 +113,6 @@ public class ESeriesTemplate {
 	 * @return Gerundete Gleitkommazahl
 	 */
 	private static double roundToDecimals(double number, int decimal) {
-		return (int)(number * Math.pow(10, decimal)+0.5) / (double)Math.pow(10, decimal);  
+		return (int)(number * Math.pow(10, decimal) + 0.5) / (double)Math.pow(10, decimal);  
 	}
 }
