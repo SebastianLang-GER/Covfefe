@@ -46,8 +46,8 @@ import org.apache.batik.swing.*;
 
 /**
  * Hauptklasse, die beim Programmstart aufgerufen wird und die grafische Benutzeroberfläche enthält
- * @author Sebastian Lang
- * @version 15.06.2018
+ * @author Sebastian Lang, Tobias Vöth, Dominik Thörmer, Marc Gebert, Hussein Kaviani, Shayan Jani
+ * @version 06.07.2018
  */
 @SuppressWarnings("serial")
 public class Covfefe extends JFrame {
@@ -508,17 +508,18 @@ public class Covfefe extends JFrame {
 		splitPane.setRightComponent(rightSplitPanePanel);
 		rightSplitPanePanel.setLayout(new BorderLayout(0, 0));
 		
-		JPanel panel_4 = new JPanel();
-		panel_4.setBorder(new EmptyBorder(10, 10, 10, 10));
-		rightSplitPanePanel.add(panel_4, BorderLayout.CENTER);
-		panel_4.setLayout(new BorderLayout(0, 0));
+		JPanel CanvasPanel = new JPanel();
+		CanvasPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		rightSplitPanePanel.add(CanvasPanel, BorderLayout.CENTER);
+		CanvasPanel.setLayout(new BorderLayout(0, 0));
 		
 		JSVGCanvas svgCanvas = new JSVGCanvas();
+		svgCanvas.setUseUnixTextSelection(false);
 		svgCanvas.setEnableImageZoomInteractor(false);
-		panel_4.add(svgCanvas);
-		svgCanvas.setToolTipText("Patrick-Emil Z\u00F6rner (Paddy)\r\nhttps://commons.wikimedia.org/wiki/File:Spannungsteiler.svg");
+		CanvasPanel.add(svgCanvas);
 		svgCanvas.setRecenterOnResize(false);
-		svgCanvas.setBackground(new Color(240, 240, 240));
+		svgCanvas.setBackground(CanvasPanel.getBackground());
+		svgCanvas.setToolTipText("<html>Patrick-Emil Z\u00F6rner (Paddy)<br>https://commons.wikimedia.org/wiki/File:Spannungsteiler.svg</html>");
 		/*
 		File file = null;
 	    String resource = "/com/myorg/foo.xml";
@@ -543,8 +544,8 @@ public class Covfefe extends JFrame {
 	        file = new File(res.getFile());
 	    }
 		*/
-		//svgCanvas.setURI((debugging ? "file:src/" : "jar://") + "res/Spannungsteiler.svg");
-		
+		svgCanvas.setURI((debugging ? "file:src/" : "") + "res/Spannungsteiler.svg");
+	
 		JPanel buttonPanelWithSeperator = new JPanel();
 		rightSplitPanePanel.add(buttonPanelWithSeperator, BorderLayout.SOUTH);
 		buttonPanelWithSeperator.setLayout(new BorderLayout(0, 0));
@@ -595,8 +596,7 @@ public class Covfefe extends JFrame {
 	 */
 	public void reset() {
 		voltageDivider = new VoltageDivider(); //Neue Berechnung starten
-		//### Demo
-		//refreshValues(); //Werte in GUI übernehmen
+		refreshValues(); //Werte in GUI übernehmen
 	}
 	
 	/**
@@ -607,11 +607,6 @@ public class Covfefe extends JFrame {
 		InputParameter parameter = new InputParameter();
 		//### Todo
 		
-		//### Demo
-		refreshValues();
-		SystemSounds.play(SystemSounds.Sound.Asterisk);
-		
-		/*
 		if(voltageDivider.isValidInput(parameter)) {
 			//Eingaben übernehmen
 			//### Todo: Werte aus GUI einlesen
@@ -626,7 +621,6 @@ public class Covfefe extends JFrame {
 			JOptionPane.showMessageDialog(null, "Die Eingabe ist ungültig.", "Covfefe: Fehler", JOptionPane.ERROR_MESSAGE); //Fehlermeldung
 			//### Todo: Anzeige auf GUI
 		}
-		*/
 	}
 	
 	private void refreshValues() {
