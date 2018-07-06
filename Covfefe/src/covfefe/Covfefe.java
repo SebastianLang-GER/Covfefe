@@ -672,11 +672,12 @@ public class Covfefe extends JFrame {
 		//### Todo -^
 		//### Todo: Werte aus GUI einlesen - changeEvents //Eingaben übernehmen
 		
-		if(voltageDivider.isValidInput(parameter)) {
+		//voltageDivider.isValidInput(parameter)) {
 			voltageDivider.calculateValues(); //Berechnung durchführen
 			System.out.println(voltageDivider.toString());
 			refreshValues(); //Werte in GUI übernehmen
 			SystemSounds.play(SystemSounds.Sound.Asterisk); //Sound abspielen
+			/*
 		}
 		else {
 			//Ungültige Eingabe anzeigen
@@ -684,10 +685,10 @@ public class Covfefe extends JFrame {
 			JOptionPane.showMessageDialog(null, "Die Eingabe ist ungültig.", "Covfefe: Fehler", JOptionPane.ERROR_MESSAGE); //Fehlermeldung
 			//### Todo: Anzeige auf GUI
 		}
+		*/
 	}
 	
 	private void refreshValues() {
-		//### Todo: Werte abfragen
 		spnValueResistor1.setValue(voltageDivider.getResistor(0).getResistance().getValue()); //Widerstandswert R1
 		//cbUnitWithPrefixResistor1.setSelectedIndex(3);
 		spnMinResistor1.setValue(voltageDivider.getMinResistance(0).getValue()); //Mindestwert R1

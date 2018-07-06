@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"covfefe"},{"l":"test"}]
+packageSearchIndex = [{"l":"covfefe"}]
