@@ -9,7 +9,7 @@ public class ResistorTest {
 		System.out.println("Wert (Sollte 1.0 Ohm und E3-Reihe sein): " + r.toString());
 		
 		//Test der Methode getResistance
-		System.out.println("R�ckagbe des Widerstandswerts (sollte 1.0 Ohm sein): " + r.getResistance());
+		System.out.println("Rückagbe des Widerstandswerts (sollte 1.0 Ω sein): " + r.getResistance());
 		
 		//Test der Methode setESeries
 		r.setESeries(new ESeriesTemplate(6, 20));
@@ -22,15 +22,15 @@ public class ResistorTest {
 		Resistance e = new Resistance();
 		e.setValue(1.1);
 		r.chooseNextGreaterResistor(e);
-		System.out.println("R�ckagbe des Widerstandswerts (sollte 1.5 Ohm sein): " + r.getResistance());
+		System.out.println("Rückagbe des Widerstandswerts (sollte 1.5 Ω sein): " + r.getResistance());
 		
 		//Test der Methode chooseNextSmallerResistor
 		e.setValue(1.4);
 		r.chooseNextSmallerResistor(e);
-		System.out.println("R�ckagbe des Widerstandswerts (sollte 1.0 Ohm sein): " + r.getResistance());
+		System.out.println("Rückagbe des Widerstandswerts (sollte 1.0 Ω sein): " + r.getResistance());
 				
 		//Test der Methode getDecimalFector
 		e.setValue(100000);
-		System.out.println("R�ckagabe des Widerstandswerts (Sollte 100 kOhm sein): " + e.toString());
+		System.out.println("Rückagabe des Widerstandswerts (Sollte 100 kΩ sein): " + e.toString());
 	}
 }
