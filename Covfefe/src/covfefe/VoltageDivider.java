@@ -438,7 +438,7 @@ public class VoltageDivider {
 			this.calculationCompleted = true;
 		}
 	}
-	
+
 	/**
 	 * Rückgabe aller Attribute und Eigenschaften der Klasse als Zeichenkette 
 	 */

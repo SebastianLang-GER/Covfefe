@@ -411,8 +411,7 @@ public class VoltageDividerTest {
 	}
 
 	
-	
-	
+		
 	
 	
 	public static void binaerDarstellenVonBits (int zahl) {
