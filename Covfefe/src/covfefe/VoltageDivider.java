@@ -368,11 +368,11 @@ public class VoltageDivider {
 				}
 				
 				if(validParameter.getVoltage1() == true) {
-					this.voltages[0].setValue(this.voltages[1].getValue() * this.ratio);
+					this.voltages[1].setValue(this.voltages[0].getValue() / this.ratio);
 					this.totalVoltage.setValue(this.voltages[0].getValue() + this.voltages[1].getValue());
 				}
 				if(validParameter.getVoltage2() == true) {
-					this.voltages[1].setValue(this.voltages[0].getValue() / this.ratio);
+					this.voltages[0].setValue(this.voltages[1].getValue() * this.ratio);
 					this.totalVoltage.setValue(this.voltages[1].getValue() + this.voltages[0].getValue());
 				}
 				
@@ -413,11 +413,11 @@ public class VoltageDivider {
 					this.totalResistor = Probe;
 				}
 				if(validParameter.getMinResistor1() == false && validParameter.getMinResistor2() == false) {
-					Probe.setValue(1.0);
+					Probe.setValue(10);
 					this.resistors[0].chooseResistor(Probe);
-					Probe.setValue(this.resistors[0].getResistance().getValue() * this.ratio);
+					Probe.setValue(this.resistors[0].getResistance().getValue() / this.ratio);
 					this.resistors[1].chooseResistor(Probe);
-					Probe.setValue(this.resistors[0].getResistance().getValue() + this.resistors[1].getResistance().getValue());
+					Probe.setValue(this.resistors[1].getResistance().getValue() + this.resistors[1].getResistance().getValue());
 					this.totalResistor = Probe;
 				}
 				if(validParameter.getMinResistor1() == true && validParameter.getMinResistor2() == true) {

@@ -127,27 +127,294 @@ public class VoltageDividerTest {
 		VoltageDivider VD = new VoltageDivider();
 		System.out.println(VD.toString());
 		System.out.println("- - - - - - - - - - - - - - - - - - - - -");
-		/*
+		
 		
 		
 		InputParameter IP = new InputParameter();
 		Voltage voltage = new Voltage();
-		voltage.setValue(10.1);
+		Resistance resistance = new Resistance();
+		ESeriesTemplate EST = new ESeriesTemplate(24,5);
+		Resistor resistor = new Resistor(resistance, EST);
+		
+		
+		
 		
 		//1.: Ratio, 1 Voltage und kein Resistor gegeben
-		VD.setRatioResistor1toResistor2(5);
+		System.out.println("1.1:");
+		VD.setRatioResistor1toResistor2(5.0);
 		IP.setRatio(true);
-		VD.setVoltage(0, voltage);
+		voltage.setValue(10.1);
+		VD.setVoltage(0 , voltage);
 		IP.setVoltage1(true);
-		VD.setTotalResistor(new Resistance());
-		System.out.println(VD.toString());
-		VD.isValidInput(IP);
-		VD.calculateValues();
-		System.out.println(VD.getCalculationCompleted());
-		System.out.println(VD.toString());
-		*/
+		überprüfen(VD, IP);
+		IP.setVoltage1(false);
+		
+		System.out.println("1.2:");
+		VD = new VoltageDivider();
+		VD.setRatioResistor1toResistor2(5.0);
+		voltage.setValue(2.02);
+		VD.setVoltage(1, voltage);
+		IP.setVoltage2(true);				
+		überprüfen(VD, IP);
+		IP.setVoltage2(false);
+		
+		System.out.println("1.3:");
+		VD = new VoltageDivider();
+		VD.setRatioResistor1toResistor2(5.0);
+		voltage.setValue(12.12);
+		VD.setTotalVoltage(voltage);
+		IP.setTotalVoltage(true);				
+		überprüfen(VD, IP);
+		IP.setTotalVoltage(false);
+		
+		//2.: Ratio, 1 Voltage und 1 Resistor
+		System.out.println("2.1:");
+		VD = new VoltageDivider();
+		VD.setRatioResistor1toResistor2(5.0);
+		voltage.setValue(10.1);
+		VD.setVoltage(0 , voltage);
+		IP.setVoltage1(true);
+		resistance.setValue(10);
+		resistor.chooseResistor(resistance);
+		IP.setResistor1(true);
+		VD.setResistor(0, resistor);
+		überprüfen(VD, IP);
+		IP.setResistor1(false);
+		
+		System.out.println("2.2:");
+		VD = new VoltageDivider();
+		VD.setRatioResistor1toResistor2(5.0);
+		voltage.setValue(10.1);
+		VD.setVoltage(0 , voltage);
+		IP.setVoltage1(true);
+		resistance.setValue(2);
+		resistor.chooseResistor(resistance);
+		IP.setResistor2(true);
+		VD.setResistor(1, resistor);
+		überprüfen(VD, IP);
+		IP.setResistor2(false);
+		
+		System.out.println("2.3:");
+		VD = new VoltageDivider();
+		VD.setRatioResistor1toResistor2(5.0);
+		voltage.setValue(10.1);
+		VD.setVoltage(0 , voltage);
+		IP.setVoltage1(true);
+		resistance.setValue(12);
+		IP.setTotalResistor(true);
+		VD.setTotalResistor(resistance);
+		überprüfen(VD, IP);
+		IP.setTotalResistor(false);
+		IP.setVoltage1(false);
+		
+		System.out.println("2.4:");
+		VD = new VoltageDivider();
+		VD.setRatioResistor1toResistor2(5.0);
+		voltage.setValue(2.02);
+		VD.setVoltage(1 , voltage);
+		IP.setVoltage2(true);
+		resistance.setValue(10);
+		resistor.chooseResistor(resistance);
+		IP.setResistor1(true);
+		VD.setResistor(0, resistor);
+		überprüfen(VD, IP);
+		IP.setResistor1(false);
+		
+		System.out.println("2.5:");
+		VD = new VoltageDivider();
+		VD.setRatioResistor1toResistor2(5.0);
+		voltage.setValue(2.02);
+		VD.setVoltage(1 , voltage);
+		IP.setVoltage2(true);
+		resistance.setValue(2);
+		resistor.chooseResistor(resistance);
+		IP.setResistor2(true);
+		VD.setResistor(1, resistor);
+		überprüfen(VD, IP);
+		IP.setResistor2(false);
+		
+		System.out.println("2.6:");
+		VD = new VoltageDivider();
+		VD.setRatioResistor1toResistor2(5.0);
+		voltage.setValue(2.02);
+		VD.setVoltage(1 , voltage);
+		IP.setVoltage2(true);
+		resistance.setValue(12);
+		IP.setTotalResistor(true);
+		VD.setTotalResistor(resistance);
+		überprüfen(VD, IP);
+		IP.setTotalResistor(false);
+		IP.setVoltage2(false);
+		
+		System.out.println("2.7:");
+		VD = new VoltageDivider();
+		VD.setRatioResistor1toResistor2(5.0);
+		voltage.setValue(12.12);
+		VD.setTotalVoltage(voltage);
+		IP.setTotalVoltage(true);
+		resistance.setValue(10);
+		resistor.chooseResistor(resistance);
+		IP.setResistor1(true);
+		VD.setResistor(0, resistor);
+		überprüfen(VD, IP);
+		IP.setResistor1(false);
+		
+		System.out.println("2.8:");
+		VD = new VoltageDivider();
+		VD.setRatioResistor1toResistor2(5.0);
+		voltage.setValue(12.12);
+		VD.setTotalVoltage(voltage);
+		IP.setTotalVoltage(true);
+		resistance.setValue(2);
+		resistor.chooseResistor(resistance);
+		IP.setResistor2(true);
+		VD.setResistor(1, resistor);
+		überprüfen(VD, IP);
+		IP.setResistor2(false);
+		
+		System.out.println("2.9:");
+		VD = new VoltageDivider();
+		VD.setRatioResistor1toResistor2(5.0);
+		voltage.setValue(12.12);
+		VD.setTotalVoltage(voltage);
+		IP.setTotalVoltage(true);
+		resistance.setValue(12);
+		IP.setTotalResistor(true);
+		VD.setTotalResistor(resistance);
+		überprüfen(VD, IP);
+		IP.setTotalResistor(false);
+		IP.setTotalVoltage(false);
+		
+		//3.: Ratio, 1 Voltage und 1/2 Min Resistor
+		System.out.println("3.1:");
+		VD = new VoltageDivider();
+		VD.setRatioResistor1toResistor2(5.0);
+		voltage.setValue(10.1);
+		VD.setVoltage(0 , voltage);
+		IP.setVoltage1(true);
+		resistance.setValue(10);
+		IP.setMinResistor1(true);
+		VD.setMinResistor(0, resistance);
+		überprüfen(VD, IP);
+		IP.setMinResistor1(false);
+		
+		System.out.println("3.2:");
+		VD = new VoltageDivider();
+		VD.setRatioResistor1toResistor2(5.0);
+		voltage.setValue(10.1);
+		VD.setVoltage(0 , voltage);
+		IP.setVoltage1(true);
+		resistance.setValue(2);
+		IP.setMinResistor2(true);
+		VD.setMinResistor(1, resistance);
+		überprüfen(VD, IP);
+		IP.setMinResistor2(false);
+		
+		System.out.println("3.3:");
+		VD = new VoltageDivider();
+		VD.setRatioResistor1toResistor2(5.0);
+		voltage.setValue(10.1);
+		VD.setVoltage(0 , voltage);
+		IP.setVoltage1(true);
+		resistance.setValue(10);
+		IP.setMinResistor1(true);
+		VD.setMinResistor(0, resistance);
+		resistance.setValue(2);
+		IP.setMinResistor2(true);
+		VD.setMinResistor(1, resistance);
+		überprüfen(VD, IP);
+		IP.setMinResistor1(false);
+		IP.setMinResistor2(false);
+		IP.setVoltage1(false);
+		
+		System.out.println("3.4:");
+		VD = new VoltageDivider();
+		VD.setRatioResistor1toResistor2(5.0);
+		voltage.setValue(2.02);
+		VD.setVoltage(1 , voltage);
+		IP.setVoltage2(true);
+		resistance.setValue(10);
+		IP.setMinResistor1(true);
+		VD.setMinResistor(0, resistance);
+		überprüfen(VD, IP);
+		IP.setMinResistor1(false);
+		
+		System.out.println("3.5:");
+		VD = new VoltageDivider();
+		VD.setRatioResistor1toResistor2(5.0);
+		voltage.setValue(2.02);
+		VD.setVoltage(1 , voltage);
+		IP.setVoltage2(true);
+		resistance.setValue(2);
+		IP.setMinResistor2(true);
+		VD.setMinResistor(1, resistance);
+		überprüfen(VD, IP);
+		IP.setMinResistor2(false);
+		
+		System.out.println("3.6:");
+		VD = new VoltageDivider();
+		VD.setRatioResistor1toResistor2(5.0);
+		voltage.setValue(2.02);
+		VD.setVoltage(1 , voltage);
+		IP.setVoltage2(true);
+		resistance.setValue(10);
+		IP.setMinResistor1(true);
+		VD.setMinResistor(0, resistance);
+		resistance.setValue(2);
+		IP.setMinResistor2(true);
+		VD.setMinResistor(1, resistance);
+		überprüfen(VD, IP);
+		IP.setMinResistor1(false);
+		IP.setMinResistor2(false);
+		IP.setVoltage2(false);
+		
+		System.out.println("3.7:");
+		VD = new VoltageDivider();
+		VD.setRatioResistor1toResistor2(5.0);
+		voltage.setValue(12.12);
+		VD.setTotalVoltage(voltage);
+		IP.setTotalVoltage(true);
+		resistance.setValue(10);
+		IP.setMinResistor1(true);
+		VD.setMinResistor(0, resistance);
+		überprüfen(VD, IP);
+		IP.setMinResistor1(false);
+		
+		System.out.println("3.8:");
+		VD = new VoltageDivider();
+		VD.setRatioResistor1toResistor2(5.0);
+		voltage.setValue(12.12);
+		VD.setTotalVoltage(voltage);
+		IP.setTotalVoltage(true);
+		resistance.setValue(2);
+		IP.setMinResistor2(true);
+		VD.setMinResistor(1, resistance);
+		überprüfen(VD, IP);
+		IP.setMinResistor2(false);
+		
+		System.out.println("3.9:");
+		VD = new VoltageDivider();
+		VD.setRatioResistor1toResistor2(5.0);
+		voltage.setValue(12.12);
+		VD.setTotalVoltage(voltage);
+		IP.setTotalVoltage(true);
+		resistance.setValue(10);
+		IP.setMinResistor1(true);
+		VD.setMinResistor(0, resistance);
+		resistance.setValue(2);
+		IP.setMinResistor2(true);
+		VD.setMinResistor(1, resistance);
+		überprüfen(VD, IP);
+		IP.setMinResistor1(false);
+		IP.setMinResistor2(false);
+		IP.setTotalVoltage(false);
 	}
 
+	
+	
+	
+	
+	
 	public static void binaerDarstellenVonBits (int zahl) {
 		  
 		  int maske = 0b000000001;
@@ -161,6 +428,16 @@ public class VoltageDividerTest {
 
 		  System.out.println(bitfolge);
 		 }	
+	
+	public static void überprüfen (VoltageDivider VD, InputParameter IP){	
+		VD.isValidInput(IP);
+		VD.calculateValues();
+		if(VD.getRatioResistor1toResistor2() != 5) System.out.println("Fehler 1");
+		if(VD.getResistor(0).getResistance().getValue() != 10) System.out.println("Fehler 2");
+		if(VD.getResistor(1).getResistance().getValue() != 2) System.out.println("Fehler 3");
+		if(VD.getVoltage(0).getValue() != 10.1) System.out.println("Fehler 4");
+		if(VD.getVoltage(1).getValue() != 2.02) System.out.println("Fehler 5");		
+	}
 }
 
 
