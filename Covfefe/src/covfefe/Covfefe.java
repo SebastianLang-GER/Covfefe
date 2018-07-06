@@ -69,15 +69,15 @@ public class Covfefe extends JFrame {
 	private JSpinner spnRatioA = new JSpinner();
 	private JSpinner spnRatioB = new JSpinner();
 	private JSpinner spnFactor = new JSpinner();
-	private JComboBox cbESeries = new JComboBox();
-	private JComboBox cbUnitWithPrefixResistor1 = new JComboBox();
-	private JComboBox cbUnitWithPrefixMinResistor1 = new JComboBox();
-	private JComboBox cbUnitWithPrefixResistor2 = new JComboBox();
-	private JComboBox cbUnitWithPrefixMinResistor2 = new JComboBox();
-	private JComboBox cbUnitWithPrefixTotalResistor = new JComboBox();
-	private JComboBox cbUnitWithPrefixVoltage1 = new JComboBox();
-	private JComboBox cbUnitWithPrefixVoltage2 = new JComboBox();
-	private JComboBox cbUnitWithPrefixTotalVoltage = new JComboBox();
+	private JComboBox<ESeries> cbESeries = new JComboBox<ESeries>();
+	private JComboBox<Resistance> cbUnitWithPrefixResistor1 = new JComboBox<Resistance>();
+	private JComboBox<Resistance> cbUnitWithPrefixMinResistor1 = new JComboBox<Resistance>();
+	private JComboBox<Resistance> cbUnitWithPrefixResistor2 = new JComboBox<Resistance>();
+	private JComboBox<Resistance> cbUnitWithPrefixMinResistor2 = new JComboBox<Resistance>();
+	private JComboBox<Resistance> cbUnitWithPrefixTotalResistor = new JComboBox<Resistance>();
+	private JComboBox<Voltage> cbUnitWithPrefixVoltage1 = new JComboBox<Voltage>();
+	private JComboBox<Voltage> cbUnitWithPrefixVoltage2 = new JComboBox<Voltage>();
+	private JComboBox<Voltage> cbUnitWithPrefixTotalVoltage = new JComboBox<Voltage>();
 
 	/**
 	 * Standardkonstruktor zum Erzeugen von Objekten der Klasse Covfefe
@@ -596,6 +596,7 @@ public class Covfefe extends JFrame {
 	 */
 	public void reset() {
 		voltageDivider = new VoltageDivider(); //Neue Berechnung starten
+		cbESeries.setSelectedIndex(3); //E-Reihe auswählen
 		refreshValues(); //Werte in GUI übernehmen
 	}
 	
@@ -605,13 +606,12 @@ public class Covfefe extends JFrame {
 	public void calculate() {
 		//Verfügbare Eingabeparamater
 		InputParameter parameter = new InputParameter();
-		//### Todo
+		//### Todo -^
+		//### Todo: Werte aus GUI einlesen - changeEvents //Eingaben übernehmen
 		
 		if(voltageDivider.isValidInput(parameter)) {
-			//Eingaben übernehmen
-			//### Todo: Werte aus GUI einlesen
-			
 			voltageDivider.calculateValues(); //Berechnung durchführen
+			System.out.println(voltageDivider.toString());
 			refreshValues(); //Werte in GUI übernehmen
 			SystemSounds.play(SystemSounds.Sound.Asterisk); //Sound abspielen
 		}
@@ -625,23 +625,22 @@ public class Covfefe extends JFrame {
 	
 	private void refreshValues() {
 		//### Todo: Werte abfragen
-		cbESeries.setSelectedIndex(4);
-		spnValueResistor1.setValue(14);
-		cbUnitWithPrefixResistor1.setSelectedIndex(3);
-		spnMinResistor1.setValue(0);
-		cbUnitWithPrefixMinResistor1.setSelectedIndex(2);
-		spnValueResistor2.setValue(10);
-		cbUnitWithPrefixResistor2.setSelectedIndex(3);
-		spnMinResistor2.setValue(10);
-		cbUnitWithPrefixMinResistor2.setSelectedIndex(3);
-		spnValueTotalResistor.setValue(24);
-		cbUnitWithPrefixTotalResistor.setSelectedIndex(3);
-		spnValueVoltage1.setValue(7);
-		cbUnitWithPrefixVoltage1.setSelectedIndex(2);
-		spnValueVoltage2.setValue(5);
-		cbUnitWithPrefixVoltage2.setSelectedIndex(2);
-		spnValueTotalVoltage.setValue(12);
-		cbUnitWithPrefixTotalVoltage.setSelectedIndex(2);
+		spnValueResistor1.setValue(voltageDivider.getResistor(0).getResistance().getValue()); //Widerstandswert R1
+		//cbUnitWithPrefixResistor1.setSelectedIndex(3);
+		spnMinResistor1.setValue(voltageDivider.getMinResistance(0).getValue()); //Mindestwert R1
+		//cbUnitWithPrefixMinResistor1.setSelectedIndex(2);
+		spnValueResistor2.setValue(voltageDivider.getResistor(1).getResistance().getValue()); //Widerstandswert R2
+		//cbUnitWithPrefixResistor2.setSelectedIndex(3);
+		spnMinResistor2.setValue(voltageDivider.getMinResistance(1).getValue()); //Mindestwert R2
+		//cbUnitWithPrefixMinResistor2.setSelectedIndex(3);
+		spnValueTotalResistor.setValue(voltageDivider.getTotalResistor().getValue());
+		//cbUnitWithPrefixTotalResistor.setSelectedIndex(3);
+		spnValueVoltage1.setValue(voltageDivider.getVoltage(0).getValue());
+		//cbUnitWithPrefixVoltage1.setSelectedIndex(2);
+		spnValueVoltage2.setValue(voltageDivider.getVoltage(1).getValue());
+		//cbUnitWithPrefixVoltage2.setSelectedIndex(2);
+		spnValueTotalVoltage.setValue(voltageDivider.getTotalVoltage().getValue());
+		//cbUnitWithPrefixTotalVoltage.setSelectedIndex(2);
 		spnRatioA.setValue(1.4);
 		spnRatioB.setValue(1);
 		spnFactor.setValue(1.4);

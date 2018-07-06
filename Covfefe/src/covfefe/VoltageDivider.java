@@ -3,14 +3,15 @@ package covfefe;
 /**
  * Klasse, die einen Spannungsteiler repräsentiert und Methoden zu dessen Berechnungen enthält
  * @author Dominik Thörmer, Tobias Vöth
- * @version 15.06.2018
+ * @version 06.07.2018
  */
 public class VoltageDivider {
 	
+	private ESeriesTemplate eSeries;
 	private boolean inputParameterChecked;
 	private boolean calculationCompleted;
 	private Resistor[] resistors;
-	private Resistor[] minResistors;
+	private Resistance[] minResistance;
 	private Voltage[] voltages;
 	private Voltage totalVoltage;
 	private Resistance totalResistor;
@@ -21,11 +22,23 @@ public class VoltageDivider {
 	 *  Konstruktor zum Erzeugen von Objekten der Klasse VoltageDivider
 	 */
 	public VoltageDivider() {
+		eSeries = ESeries.E24;
 		inputParameterChecked = false;
 		calculationCompleted = false;
 		resistors = new Resistor[2];
-		minResistors = new Resistor[2];
+		for (int i = 0; i < resistors.length; i++) {
+			resistors[i] = new Resistor(new Resistance(), eSeries);
+		}
+		minResistance = new Resistance[2];
+		for (int i = 0; i < minResistance.length; i++) {
+			minResistance[i] = new Resistance();
+		}
 		voltages = new Voltage[2];
+		for (int i = 0; i < voltages.length; i++) {
+			voltages[i] = new Voltage();
+		}
+		totalVoltage = new Voltage();
+		totalResistor = new Resistance();
 		ratio = 0;
 	}
 	
@@ -131,21 +144,21 @@ public class VoltageDivider {
 	 * @param index Nummer des Mindestwiderstandes (0 oder 1)
 	 * @param value Mindestwiderstand
 	 */
-	public void setMinResistor(int index, Resistor value) {
+	public void setMinResistor(int index, Resistance value) {
 		if (index == 0 || index == 1) {
-			this.minResistors[index] = value;
+			this.minResistance[index] = value;
 			inputParameterChecked = false;
 		}
 	}
 
 	/**
-	 * Rückgabe des Mindestwiderstands
-	 * @param index Nummer des Mindestwiderstandes (0 oder 1)
-	 * @return Mindestwiderstand
+	 * Rückgabe des Mindestwerts für einen Widerstand
+	 * @param index Nummer des Widerstands (0 oder 1)
+	 * @return Mindest-Widertandswert
 	 */
-	public Resistor getMinResistor(int index) {
+	public Resistance getMinResistance(int index) {
 		if (index == 0 || index == 1) {
-			return this.minResistors[index];
+			return this.minResistance[index];
 		}
 		return null;
 	}
@@ -279,7 +292,7 @@ public class VoltageDivider {
 					}
 					
 					if(validParameter.getMinResistor1() == true && validParameter.getMinResistor2() == false) {
-						Probe.setValue(this.minResistors[0].getResistance().getValue());
+						Probe.setValue(this.minResistance[0].getValue());
 						this.resistors[0].chooseResistor(Probe);
 						Probe.setValue(this.resistors[0].getResistance().getValue() / this.ratio);
 						this.resistors[1].chooseResistor(Probe);
@@ -287,7 +300,7 @@ public class VoltageDivider {
 						this.totalResistor = Probe;	
 					}
 					if(validParameter.getMinResistor1() == false && validParameter.getMinResistor2() == true) {
-						Probe.setValue(this.minResistors[1].getResistance().getValue());
+						Probe.setValue(this.minResistance[1].getValue());
 						this.resistors[1].chooseResistor(Probe);
 						Probe.setValue(this.resistors[1].getResistance().getValue() * this.ratio);
 						this.resistors[0].chooseResistor(Probe);
@@ -303,12 +316,12 @@ public class VoltageDivider {
 						this.totalResistor = Probe;	
 					}
 					if(validParameter.getMinResistor1() == true && validParameter.getMinResistor2() == true) {
-						Probe.setValue(this.minResistors[0].getResistance().getValue());
+						Probe.setValue(this.minResistance[0].getValue());
 						this.resistors[0].chooseResistor(Probe);
 						Probe.setValue(this.resistors[0].getResistance().getValue() / this.ratio);
 						this.resistors[1].chooseResistor(Probe);
-						if(this.resistors[1].getResistance().getValue() < this.minResistors[1].getResistance().getValue()) {
-							Probe.setValue(this.minResistors[1].getResistance().getValue());
+						if(this.resistors[1].getResistance().getValue() < this.minResistance[1].getValue()) {
+							Probe.setValue(this.minResistance[1].getValue());
 							this.resistors[1].chooseResistor(Probe);
 							Probe.setValue(this.resistors[1].getResistance().getValue() * this.ratio);
 							this.resistors[0].chooseResistor(Probe);
@@ -384,7 +397,7 @@ public class VoltageDivider {
 				}
 				
 				if(validParameter.getMinResistor1() == true && validParameter.getMinResistor2() == false) {
-					Probe.setValue(this.minResistors[0].getResistance().getValue());
+					Probe.setValue(this.minResistance[0].getValue());
 					this.resistors[0].chooseResistor(Probe);
 					Probe.setValue(this.resistors[0].getResistance().getValue() / this.ratio);
 					this.resistors[1].chooseResistor(Probe);
@@ -392,7 +405,7 @@ public class VoltageDivider {
 					this.totalResistor = Probe;	
 				}
 				if(validParameter.getMinResistor1() == false && validParameter.getMinResistor2() == true) {
-					Probe.setValue(this.minResistors[1].getResistance().getValue());
+					Probe.setValue(this.minResistance[1].getValue());
 					this.resistors[1].chooseResistor(Probe);
 					Probe.setValue(this.resistors[1].getResistance().getValue() * this.ratio);
 					this.resistors[0].chooseResistor(Probe);
@@ -408,12 +421,12 @@ public class VoltageDivider {
 					this.totalResistor = Probe;
 				}
 				if(validParameter.getMinResistor1() == true && validParameter.getMinResistor2() == true) {
-					Probe.setValue(this.minResistors[0].getResistance().getValue());
+					Probe.setValue(this.minResistance[0].getValue());
 					this.resistors[0].chooseResistor(Probe);
 					Probe.setValue(this.resistors[0].getResistance().getValue() / this.ratio);
 					this.resistors[1].chooseResistor(Probe);
-					if(this.resistors[1].getResistance().getValue() < this.minResistors[1].getResistance().getValue()) {
-						Probe.setValue(this.minResistors[1].getResistance().getValue());
+					if(this.resistors[1].getResistance().getValue() < this.minResistance[1].getValue()) {
+						Probe.setValue(this.minResistance[1].getValue());
 						this.resistors[1].chooseResistor(Probe);
 						Probe.setValue(this.resistors[1].getResistance().getValue() * this.ratio);
 						this.resistors[0].chooseResistor(Probe);
@@ -430,15 +443,15 @@ public class VoltageDivider {
 	 * Rückgabe aller Attribute und Eigenschaften der Klasse als Zeichenkette 
 	 */
 	public String toString() {
-		return "Total Voltage: " + totalVoltage
-				+ "\nVoltage 1: " + voltages[0]
-				+ "\nVoltage 2: " + voltages[1]
-				+ "\nTotal Resistance: " + totalResistor
-				+ "\nResistor 1: " + resistors[0]
-				+ "\nResistor 2: " + resistors[1]
-				+ "\nMin Resistance 1: " + minResistors[0]
-				+ "\nResistance 2: " + minResistors[1]
-				+ "\nRatio :" + ratio
+		return "Gesamtspannung: " + totalVoltage
+				+ "\nSpannung U1: " + voltages[0]
+				+ "\nSpannung U2: " + voltages[1]
+				+ "\nGesamtwiderstand: " + totalResistor
+				+ "\nWiderstand R1: " + resistors[0]
+				+ "\nWiderstand R2: " + resistors[1]
+				+ "\nMindestwert R1: " + minResistance[0]
+				+ "\nMindestwert R2: " + minResistance[1]
+				+ "\nVerhältnisfaktor R1 zu R2: " + ratio
 				+ "\nCalculation Completed: " + calculationCompleted;
 	}
 }
